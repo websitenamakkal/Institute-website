@@ -1,0 +1,235 @@
+/* Responsive Styles for Dashboard & Video Player */
+
+/* =========================================
+   Video Player Page Responsiveness
+   ========================================= */
+
+/* Large Laptop / Desktop Tweaks (1200px - 1440px) */
+@media (max-width: 1440px) {
+    .playlist-sidebar {
+        width: 300px;
+        /* Slightly reduce from 350px */
+    }
+}
+
+/* Laptop / Tablet Landscape (992px - 1200px) */
+@media (max-width: 1200px) {
+    .playlist-sidebar {
+        width: 260px;
+        /* Further reduce sidebar */
+    }
+
+    .course-header h2 {
+        font-size: 1rem;
+        /* Smaller header font */
+    }
+}
+
+/* Tablet / Small Laptop / Large Mobile (Max Width 992px) */
+/* Breaking point for stacking the video player layout */
+@media (max-width: 992px) {
+    .video-page-layout {
+        flex-direction: column;
+        height: auto;
+        /* Allow scrolling */
+        overflow-y: auto;
+    }
+
+    .video-main {
+        order: 1;
+        /* Video on top */
+        height: auto;
+        overflow: visible;
+        width: 100%;
+    }
+
+    .playlist-sidebar {
+        order: 2;
+        /* Playlist below */
+        width: 100%;
+        height: auto;
+        min-height: 400px;
+        max-height: 600px;
+        border-right: none;
+        border-top: 1px solid #333;
+    }
+
+    /* Make video sticky so it stays visible while scrolling playlist? 
+       Optional, but often requested. */
+    .video-container {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+    }
+
+    .video-info {
+        padding: 1.5rem;
+    }
+}
+
+/* Mobile (Max Width 600px) */
+@media (max-width: 600px) {
+    .video-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .mark-complete-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .video-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .subscribe-btn {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Certificate Modal Mobile */
+    .certificate-container {
+        width: 95% !important;
+        padding: 1rem !important;
+        margin: 1rem;
+    }
+
+    .cert-main-title {
+        font-size: 2.5rem !important;
+    }
+
+    .input-name {
+        font-size: 2rem !important;
+        min-width: unset !important;
+        width: 100%;
+    }
+
+    .cert-footer-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .gold-seal {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .seal-inner {
+        width: 50px !important;
+        height: 50px !important;
+    }
+}
+
+/* =========================================
+   General Dashboard Responsiveness (Teach, My Learning)
+   ========================================= */
+
+/* Laptop adjustments for Grid (1024px - 1366px) */
+@media (max-width: 1366px) {
+    .course-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1rem;
+    }
+
+    .main-content {
+        padding: 1rem;
+    }
+}
+
+/* Tablet (Max Width 992px) */
+/* Override dashboard.css sidebar behavior if needed, 
+   but dashboard.css handles 900px breakpoint. We ensure smooth transition. */
+@media (max-width: 992px) {
+
+    /* Ensure sidebar collapses if not handled by dashboard.css at this width */
+    /* dashboard.css collapses at 900px. Let's force it at 992px for tablets */
+    .sidebar {
+        width: 80px;
+        padding: 1rem 0.5rem;
+    }
+
+    .sidebar .logo img {
+        max-width: 40px;
+    }
+
+    /* Hide text labels */
+    .nav-item span,
+    .logo span {
+        display: none;
+    }
+
+    .nav-item i {
+        margin-right: 0;
+        font-size: 1.5rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .main-content {
+        margin-left: 80px;
+        width: calc(100% - 80px);
+    }
+}
+
+/* Mobile (Max Width 768px) */
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .top-actions {
+        justify-content: flex-end;
+        /* Keep profile on right */
+    }
+
+    /* Enhance Course Cards for Mobile */
+    .course-card {
+        display: flex;
+        /* Row layout for horizontal cards on mobile? Or stick to stack? */
+        flex-direction: column;
+        /* Actually simpler to keep column but full width */
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+        /* Full width cards */
+    }
+
+    /* Carousel Mobile */
+    .carousel-section {
+        display: none;
+        /* Often simpler to hide complex carousels or simplify them */
+        /* But user might want it. Let's just adjust height */
+        display: block;
+    }
+
+    .carousel-container {
+        height: auto;
+    }
+
+    .slide-content {
+        padding: 1rem;
+        flex-direction: column-reverse;
+    }
+
+    .slide-image {
+        display: none;
+        /* Hide image on mobile to save space? Or adjust */
+    }
+
+    .slide-text h1 {
+        font-size: 1.5rem;
+    }
+}

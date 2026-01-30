@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Courses | Indian Info Tech</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --border-color: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --primary-blue: #4a9eff;
+            --danger-red: #ff4757;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .admin-container {
+            padding: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header-actions h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #000;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .course-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .course-table th,
+        .course-table td {
+            padding: 1.5rem 1.8rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .course-table tbody tr:hover {
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .course-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .course-table th {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: var(--gold);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .course-table td {
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .btn-edit {
+            background: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
+        }
+
+        .btn-delete {
+            background: var(--danger-red);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.5);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            width: 550px;
+            max-width: 90%;
+            border: 2px solid var(--gold);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modal-content::before {
+            content: '×';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-content::before:hover {
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            background: var(--dark-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Barlow', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2.5rem;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #3a7bd5 100%);
+            color: white;
+            border: none;
+            padding: 0.9rem 2.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(74, 158, 255, 0.5);
+        }
+
+        /* Student Info Styling */
+        .student-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .student-email {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* File Upload Styles */
+        .file-input {
+            display: none;
+        }
+
+        .file-upload-area {
+            border: 2px dashed var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--dark-bg);
+        }
+
+        .file-upload-area:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .file-upload-area p {
+            margin: 0.5rem 0;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+        }
+
+        .image-preview img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .remove-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger-red);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .remove-image:hover {
+            background: #ff2f3f;
+            transform: scale(1.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Scrollbar Styling */
+        .modal-content {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-light);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="IIT-Photoroom.png" alt="Indian Info Tech" style="border-radius: 8px;">
+        </div>
+        <ul class="nav-menu">
+            <li><a href="admin_dashboard.html" class="nav-item"><i class="bi bi-people"></i> <span>Manage
+                        Users</span></a></li>
+            <li><a href="manage_courses.html" class="nav-item active"><i class="bi bi-book"></i> <span>Manage
+                        Courses</span></a></li>
+            <li><a href="index.html" class="nav-item"><i class="bi bi-box-arrow-left"></i> <span>Logout</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <div class="admin-container">
+            <div class="header-actions">
+                <h1>Manage Courses</h1>
+                <div style="display:flex; gap:15px;">
+                    <button class="btn-add" onclick="window.location.href='admin_dashboard.html'"
+                        style="background: var(--primary-blue); box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);">
+                        <i class="bi bi-people-fill"></i> Student Course
+                    </button>
+                    <button class="btn-add" onclick="openModal()">
+                        <i class="bi bi-plus-lg"></i> Add New Course
+                    </button>
+                </div>
+            </div>
+
+            <table class="course-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="courseTableBody">
+                    <!-- Dynamic Rows -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Course Modal -->
+    <div class="modal" id="courseModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add New Course</h2>
+            <form id="courseForm">
+                <input type="hidden" id="courseId">
+
+                <!-- Course Content Fields (Hidden when Editing/Assigning) -->
+                <div id="courseContentFields">
+                    <div class="form-group">
+                        <label>Course Title *</label>
+                        <input type="text" id="courseTitle" required placeholder="e.g. Machine Learning">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <input type="text" id="courseCategory" required placeholder="e.g. AI & Machine Learning">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Number of Lessons *</label>
+                        <input type="number" id="courseLessons" required placeholder="e.g. 20" min="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Course Thumbnail Image</label>
+                        <input type="file" id="courseThumbnail" accept="image/*" class="file-input">
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="bi bi-cloud-upload" style="font-size: 2rem; color: var(--gold);"></i>
+                            <p>Click to upload or drag and drop</p>
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">PNG, JPG, WEBP (Max
+                                5MB)</span>
+                        </div>
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <img id="previewImg" src="" alt="Preview">
+                            <button type="button" class="remove-image" onclick="removeImage()">
+                                <i class="bi bi-x-circle"></i> Remove
+                            </button>
+                        </div>
+                        <input type="hidden" id="courseThumbPath">
+                    </div>
+
+                    <div class="form-group">
+                        <label>YouTube Video ID / Link</label>
+                        <input type="text" id="courseVideoLink"
+                            placeholder="e.g. kYLjHmr6WrY (ID) or https://youtu.be/..."
+                            style="width: 100%; padding: 0.8rem; background: #333; border: 1px solid var(--border-color); color: white; border-radius: 6px;">
+                        <p style="font-size: 0.8rem; color: #aaa; margin-top: 5px;">
+                            Enter the 11-character YouTube Video ID (e.g. <b>kYLjHmr6WrY</b>). Full URLs are also
+                            accepted but ID is preferred.
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Course Description</label>
+                        <textarea id="courseDescription" rows="4"
+                            placeholder="Enter a brief description of the course..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Course Details</label>
+                        <textarea id="courseDetails" rows="6"
+                            placeholder="Enter detailed information about what students will learn, prerequisites, etc..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Assignment Title Display (Shown only when Editing) -->
+                <div id="assignmentTitleDisplay" style="display: none; margin-bottom: 1.5rem; text-align: center;">
+                    <h3 id="assignCourseName" style="color: var(--gold); font-size: 1.4rem;"></h3>
+                    <p style="color: #aaa; font-size: 0.9rem;">Assign this course to a student below</p>
+                </div>
+
+                <!-- Student Fields (Hidden by default, shown only in Edit mode) -->
+                <div id="studentFields"
+                    style="display: none; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 1rem;">
+                    <h3 style="color: var(--gold); font-size: 1.1rem; margin-bottom: 1rem;">Assign to Student</h3>
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="studentUsername" placeholder="Enter student name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Student Email</label>
+                        <input type="email" id="studentEmail" placeholder="Enter student email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Student Password (Optional)</label>
+                        <input type="text" id="studentPassword"
+                            placeholder="Enter password (if creating new user or updating)">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-save">Save Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAdmin = sessionStorage.getItem('adminLoggedIn');
+            if (!isAdmin) {
+                window.location.href = 'index.html';
+                return;
+            }
+            loadCourses();
+        });
+
+        const defaultCourses = [
+
+            { id: 16, title: 'OPTICAL CHARACTER RECOGNITION', category: 'AI & ML', thumb: 'ocr.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 17, title: 'DIGIT RECOGNITION USING GUI', category: 'AI & ML', thumb: 'digit_recognition.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 18, title: 'LEAF DETECTION & DISEASE IDENTIFICATION USING DEEP LEARNING', category: 'Deep Learning', thumb: 'leaf_detection.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 19, title: 'DIABETES PREDICTION USING AI', category: 'AI & Health', thumb: 'diabetes_prediction.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 20, title: 'WEB ADVERTISEMENT OPTIMIZATION USING ML', category: 'Machine Learning', thumb: 'web_ad_opt.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 21, title: 'CHARACTER RECOGNITION USING ML', category: 'Machine Learning', thumb: 'char_recognition.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 22, title: 'TOKEN IDENTIFICATION USING NLP', category: 'NLP', thumb: 'token_nlp.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 23, title: 'ADVERTISEMENT SALE PREDICTION USING ML', category: 'Machine Learning', thumb: 'ad_sales_pred.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 24, title: 'ATTENDANCE SYSTEM USING AI', category: 'AI', thumb: 'attendance_system.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 25, title: 'MARKET ANALYSIS USING ML', category: 'Machine Learning', thumb: 'market_analysis.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 26, title: 'ARDUINO UNO BASICS & BEYOND', category: 'Embedded Systems', thumb: 'arduino_basic.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 27, title: 'LICENSE PLATE RECOGNITION USING AI', category: 'AI', thumb: 'license_plate.jpg', lessons: 1, page: 'course_details.html' },
+            { id: 28, title: 'PCB DESIGNING', category: 'Electronics', thumb: 'pcb_designing.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=X6OvGDVYWQ8' },
+            { id: 29, title: 'IMAGE CLASSIFICATION USING DEEP LEARNING', category: 'Deep Learning', thumb: 'image_class_dl.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=eerK4gs26Bw' },
+            { id: 30, title: 'BREAST CANCER PREDICTION USING ML IN THE BIOMEDICAL FIELD', category: 'Machine Learning', thumb: 'breast_cancer_ml.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=xKPKbeSbcvs' },
+            { id: 31, title: 'DEEP LEARNING ALGORITHMS', category: 'Deep Learning', thumb: 'dl_algorithms.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=NZcdfk_B8hg' },
+            { id: 32, title: 'AI based Gesture Recognition in Embedded Systems', category: 'AI & Embedded', thumb: 'gesture_rec.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=Ft9Ue-bemfU' },
+            { id: 33, title: 'ROAD SIGN DETECTION USING AI', category: 'AI', thumb: 'road_sign.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=GWqbabLvDDA' },
+            { id: 34, title: 'DIGITAL IMAGE PROCESSING USING MATLAB', category: 'MATLAB', thumb: 'dip_matlab.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=CikGXVUTCRg' },
+            { id: 35, title: 'OBJECT DETECTION USING AI', category: 'AI', thumb: 'obj_detection.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=0RNykvAOrYc' },
+            { id: 36, title: 'MATLAB', category: 'Programming', thumb: 'matlab.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=XZqzmgy4bGw' },
+            { id: 37, title: 'HOW TO DETECT MOVING OBJECT USING AI', category: 'AI', thumb: 'moving_obj.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=n4Q4JNKTf1I' },
+            { id: 38, title: 'PRINTED CIRCUIT BOARD (PCB) DESIGNING', category: 'Electronics', thumb: 'pcb_design_full.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=VtQUrFpNb-E' },
+            { id: 39, title: 'HEIGHT PREDICTION USING MACHINE LEARNING', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=u_E82y06p5s' },
+            { id: 40, title: 'AI Based Gesture Recognition in Embedded Systems', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=29PyEx8uGr4' },
+            { id: 41, title: 'HOW TO PREDICT THE HOUSE PRICE USING MACHINE LEARNING', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=Ip5JvbDF1q0' },
+            { id: 42, title: 'INTERNET OF THINGS', category: 'IoT', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=FBRNu7gO_90' },
+            { id: 43, title: 'CAR DETECTION USING AI', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=Dp4CYJXlc1w' },
+            { id: 44, title: 'MACHINE LEARNING TO PREDICT THE EXAM MARK', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=YRRHxeHqNUI' },
+            { id: 45, title: 'MACHINE LEARNING TO PREDICT WHO SURVIVED THE TITANIC', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=iN2GN2ct2b8' },
+            { id: 46, title: 'MACHINE LEARNIING HOW TO PREDICT THE SALARY EASILY', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=osENgIVTllE' },
+            { id: 47, title: 'AI ON CAMERA : FACE DETECTION AND TRACKING USING PYTHON', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=yYT8doC85rc' },
+            { id: 48, title: 'SNAKE GAME USING AI', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=yb6Q7Kt1iTA' },
+            { id: 49, title: 'OBJECT DETECTION USING COLOR', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=yzGPk3puh_o' },
+            { id: 50, title: 'MATPLOTLIB USING FOR DATA VISUALIZATION IN MACHINE LEARNING', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=pCGP6cuNOGw' },
+            { id: 51, title: 'EMAIL SPAM DETECTION', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=TM614OM6-BQ' },
+            { id: 52, title: 'NATURAL LANGUAGE PROCESSING WEBINAR', category: 'NLP', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=eTQOuM9Q3V0' },
+            { id: 53, title: 'MACHINE LEARNING', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=x3oJxbQgBMg' },
+            { id: 54, title: 'REAL TIME DROWSINESS DETECTION SYSTEM', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=Tq_nqsma1uM' },
+            { id: 55, title: 'HAND GESTURE RECOGNITION', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=fdOph75NFec' },
+            { id: 56, title: 'REAL TIME FACE RECOGNITION', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=fHMcsjenvrA' },
+            { id: 57, title: 'Hands On Training In Computer vision', category: 'CV', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=TR9QTqhoEmY' },
+            { id: 58, title: 'HANDS ON TRAINING IN PHYTON', category: 'Programming', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=E-F-U51gxTw' },
+            { id: 59, title: 'ARTIFICIAL INTELLIGENCE WEBINAR', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=Bhn1iXS6NUw' },
+            { id: 60, title: 'Real Time Facial Emotion Recognition', category: 'AI', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=LFujYLP-FTw' },
+            { id: 61, title: 'Deep Learning Webinar', category: 'DL', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=rVPiSo5I248' },
+            { id: 62, title: 'HEART DISEASE PREDICTION USING ML', category: 'ML', thumb: 'course_placeholder.jpg', lessons: 1, page: 'course_details.html', video: 'https://www.youtube.com/watch?v=mwCupsW2VE8' }
+        ];
+
+        function loadCourses() {
+            let courses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+
+            // Merge details for defaults if not fully set 
+            // (Preserves old edits but ensures new links/titles if missing)
+            defaultCourses.forEach(def => {
+                const existingIndex = courses.findIndex(c => c.id === def.id);
+                if (existingIndex === -1) {
+                    courses.push(def);
+                } else {
+                    // Update video if missing in stored but present in default
+                    if (def.video && !courses[existingIndex].video) {
+                        courses[existingIndex].video = def.video;
+                    }
+                }
+            });
+
+            // Ensure duplicates are cleaned
+            courses = courses.filter((c, index, self) =>
+                index === self.findIndex((t) => (
+                    t.id === c.id
+                ))
+            );
+
+            // Save merged list back to ensure consistency
+            localStorage.setItem('systemCourses', JSON.stringify(courses));
+
+            const tbody = document.getElementById('courseTableBody');
+            tbody.innerHTML = '';
+
+            courses.forEach(course => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="${course.thumb}" alt="thumb" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--gold);">${course.title}</div>
+                                <div style="font-size: 0.85rem; color: var(--text-secondary);">${course.category} | ${course.lessons} Lessons</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="editCourse(${course.id}, '${course.title?.replace(/'/g, "\\'") || ''}')">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <button class="btn-icon btn-delete" onclick="deleteCourse(${course.id})">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // --- EDIT / ADD LOGIC ---
+        function openModal() {
+            document.getElementById('courseForm').reset();
+            document.getElementById('courseId').value = '';
+            document.getElementById('modalTitle').innerText = 'Add New Course';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('previewImg').src = '';
+            document.getElementById('courseThumbPath').value = '';
+
+            // Show Content Fields, Hide Student Fields
+            document.getElementById('courseContentFields').style.display = 'block';
+            document.getElementById('assignmentTitleDisplay').style.display = 'none';
+            document.getElementById('studentFields').style.display = 'none';
+
+            document.getElementById('courseModal').style.display = 'flex';
+        }
+
+        function editCourse(id, title) {
+            const courses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+            const course = courses.find(c => c.id === id);
+
+            if (course) {
+                document.getElementById('courseId').value = course.id;
+                document.getElementById('modalTitle').innerText = 'Edit / Assign Course';
+
+                // Hide normal fields, Show Assignment fields
+                document.getElementById('courseContentFields').style.display = 'none';
+
+                // Show "Assign [Course Name]"
+                document.getElementById('assignmentTitleDisplay').style.display = 'block';
+                document.getElementById('assignCourseName').innerText = course.title;
+
+                // Show Student Inputs
+                document.getElementById('studentFields').style.display = 'block';
+
+                // Populate hidden fields just in case
+                document.getElementById('courseTitle').value = course.title;
+                document.getElementById('courseCategory').value = course.category || '';
+                document.getElementById('courseLessons').value = course.lessons || 1;
+                document.getElementById('courseThumbPath').value = course.thumb || '';
+
+                document.getElementById('courseModal').style.display = 'flex';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').style.display = 'none';
+        }
+
+        function deleteCourse(id) {
+            if (confirm('Are you sure you want to delete this course?')) {
+                let courses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+                courses = courses.filter(c => c.id !== id);
+                localStorage.setItem('systemCourses', JSON.stringify(courses));
+                loadCourses();
+            }
+        }
+
+        // Image Upload Logic
+        const fileInput = document.getElementById('courseThumbnail');
+        const uploadArea = document.getElementById('fileUploadArea');
+        const previewDiv = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const thumbPathInput = document.getElementById('courseThumbPath');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    previewDiv.style.display = 'block';
+                    uploadArea.style.display = 'none';
+                    thumbPathInput.value = e.target.result; // Store Base64
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        function removeImage() {
+            fileInput.value = '';
+            thumbPathInput.value = '';
+            previewImg.src = '';
+            previewDiv.style.display = 'none';
+            uploadArea.style.display = 'block';
+        }
+
+        // FORM SUBMIT
+        document.getElementById('courseForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const courseId = document.getElementById('courseId').value;
+            // Values
+            const title = document.getElementById('courseTitle').value;
+            const category = document.getElementById('courseCategory').value;
+            const lessons = document.getElementById('courseLessons').value;
+            const thumb = document.getElementById('courseThumbPath').value || 'course_placeholder.jpg';
+            const videoLink = document.getElementById('courseVideoLink').value; // Optional
+            const description = document.getElementById('courseDescription').value;
+            const details = document.getElementById('courseDetails').value;
+
+            const studentUsername = document.getElementById('studentUsername').value;
+            const studentEmail = document.getElementById('studentEmail').value;
+            const studentPassword = document.getElementById('studentPassword').value;
+
+            // 1. HANDLE COURSE UPDATE/CREATE
+            let courses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+
+            let courseData = {
+                id: courseId ? parseInt(courseId) : Date.now(),
+                title,
+                category,
+                lessons,
+                thumb,
+                video: videoLink,
+                description,
+                details,
+                page: 'course_details.html'
+            };
+
+            if (courseId) {
+                const index = courses.findIndex(c => c.id == courseId);
+                if (index !== -1) {
+                    // Update existing
+                    courses[index] = { ...courses[index], ...courseData };
+                    courseData = courses[index]; // Use updated reference
+                }
+            } else {
+                courses.push(courseData);
+            }
+            localStorage.setItem('systemCourses', JSON.stringify(courses));
+
+
+            // 2. HANDLE STUDENT ASSIGNMENT (Registered Users)
+            if (studentEmail) {
+                const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+                const targetEmail = studentEmail.toLowerCase().trim();
+                const userIndex = users.findIndex(u => (u.email || '').toLowerCase().trim() === targetEmail);
+
+                if (userIndex !== -1) {
+                    const user = users[userIndex];
+
+                    // Update Name/Password if provided and different
+                    let infoUpdated = false;
+                    if (studentUsername && studentUsername !== user.fullname) {
+                        user.fullname = studentUsername;
+                        infoUpdated = true;
+                    }
+                    if (studentPassword) {
+                        user.password = studentPassword; // In a real app, hash this
+                        infoUpdated = true;
+                    }
+
+                    // Initialize arrays if missing
+                    if (!user.purchasedCourses) user.purchasedCourses = [];
+                    if (!user.interestedCourses) user.interestedCourses = [];
+
+                    const courseTitle = courseData.title;
+                    if (!courseTitle) {
+                        alert("Error: Course Title is missing.");
+                        return;
+                    }
+
+                    // Check existence (case-insensitive)
+                    const existingIndex = user.purchasedCourses.findIndex(c => c.toLowerCase() === courseTitle.toLowerCase());
+
+                    if (existingIndex === -1) {
+                        // Grant Access
+                        user.purchasedCourses.push(courseTitle);
+                        user.purchasedCourses = [...new Set(user.purchasedCourses)];
+
+                        // Force Account Approval
+                        user.accessGranted = true;
+
+                        // Remove from pending
+                        user.interestedCourses = user.interestedCourses.filter(c => c.toLowerCase() !== courseTitle.toLowerCase());
+
+                        // COMMIT TO DB
+                        users[userIndex] = user;
+                        localStorage.setItem('registeredUsers', JSON.stringify(users));
+
+                        // Sync Active Session
+                        const loggedIn = JSON.parse(localStorage.getItem('loggedInUser'));
+                        if (loggedIn && (loggedIn.email || '').toLowerCase().trim() === targetEmail) {
+                            loggedIn.purchasedCourses = user.purchasedCourses;
+                            loggedIn.interestedCourses = user.interestedCourses;
+                            loggedIn.accessGranted = true;
+                            if (infoUpdated) {
+                                loggedIn.fullname = user.fullname;
+                                loggedIn.password = user.password;
+                            }
+                            localStorage.setItem('loggedInUser', JSON.stringify(loggedIn));
+                        }
+
+                        alert(`SUCCESS: Assigned "${courseTitle}" to ${user.email}.\nRedirecting to Student Course Page...`);
+                        window.location.href = 'admin_dashboard.html'; // REDIRECT AS REQUESTED
+                    } else {
+                        // Force approval anyway
+                        if (!user.accessGranted) {
+                            user.accessGranted = true;
+                            users[userIndex] = user;
+                            localStorage.setItem('registeredUsers', JSON.stringify(users));
+                            alert(`User ${user.email} already has the course. Account status updated to APPROVED.`);
+                            window.location.href = 'admin_dashboard.html';
+                        } else {
+                            alert(`User ${user.email} already has access to "${courseTitle}".`);
+                            window.location.href = 'admin_dashboard.html';
+                        }
+                    }
+                } else {
+                    alert(`User with email "${studentEmail}" not found.`);
+                    // Optionally ask to create?
+                }
+            } else {
+                // If just editing course, reload
+                closeModal();
+                loadCourses();
+            }
+        });
+    </script>
+</body>
+
+</html>

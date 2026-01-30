@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Dashboard | Indian Info Tech</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <!-- Utilizing the existing logo but assuming it might need white background in CSS or just placed here -->
+            <img src="IIT-Photoroom.png" alt="Indian Info Tech" style="border-radius: 8px;">
+        </div>
+
+        <ul class="nav-menu">
+            <li>
+                <a href="#" class="nav-item active">
+                    <i class="bi bi-collection-play"></i>
+                    <span>Courses</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item" id="myLearningBtn">
+                    <i class="bi bi-journal-album"></i>
+                    <span>My Learning</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-item">
+                    <i class="bi bi-trophy"></i>
+                    <span>Get Recognized</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <ul class="nav-menu">
+                <li>
+                    <a href="#" class="nav-item">
+                        <i class="bi bi-headset"></i>
+                        <span>Contact Us</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html" class="nav-item">
+                        <i class="bi bi-house"></i>
+                        <span>Back to Home</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="search-bar">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Search for a course">
+            </div>
+
+            <div class="top-actions">
+                <div class="notification">
+                    <i class="bi bi-bell"></i>
+                </div>
+                <div class="user-profile">
+                    <div class="auth-links">
+                        <span class="signed-in hide" data-status="signed-in"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Carousel Slider -->
+        <section class="carousel-section">
+            <div class="carousel-container">
+                <!-- Carousel Slide 1 - Embedded C Programming -->
+                <div class="carousel-slide active">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <span class="course-badge">EC</span>
+                            <h1>Want to be an <span class="highlight">Embedded C Programming</span> Expert?</h1>
+                            <p class="slide-description">Begin your Learning Journey with MD Sir!</p>
+                            <button class="cta-btn">Start Learning</button>
+
+                            <div class="contact-info">
+                                <div><i class="bi bi-telephone"></i> +91 90034 46612</div>
+                                <div><i class="bi bi-envelope"></i> iitdetails@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="slide-image">
+                            <div class="instructor-card">
+                                <img src="instructor-md.jpg" alt="MD Sir - Embedded C Programming Instructor">
+                                <div class="instructor-info">
+                                    <h3>MD Sir</h3>
+                                    <p>Embedded C Programming Expert</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Slide 2 - JavaScript Development -->
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <span class="course-badge js-badge">JS</span>
+                            <h1>Want to be a <span class="highlight">JavaScript Developer?</span></h1>
+                            <p class="slide-description">Begin your Learning Journey with us!</p>
+                            <button class="cta-btn">Start Learning</button>
+
+                            <div class="contact-info">
+                                <div><i class="bi bi-telephone"></i> +91 90034 46612</div>
+                                <div><i class="bi bi-envelope"></i> iitdetails@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="slide-image">
+                            <div class="code-animation">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carousel Slide 3 - Full Stack Development -->
+                <div class="carousel-slide">
+                    <div class="slide-content">
+                        <div class="slide-text">
+                            <span class="course-badge fullstack-badge">FS</span>
+                            <h1>Master <span class="highlight">Full Stack Development</span></h1>
+                            <p class="slide-description">Build Complete Web Applications from Scratch!</p>
+                            <button class="cta-btn">Start Learning</button>
+
+                            <div class="contact-info">
+                                <div><i class="bi bi-telephone"></i> +91 90034 46612</div>
+                                <div><i class="bi bi-envelope"></i> iitdetails@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="slide-image">
+                            <div class="code-animation">
+                                <i class="bi bi-layers"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="carousel-arrow prev" onclick="moveCarousel(-1)">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="carousel-arrow next" onclick="moveCarousel(1)">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+
+                <!-- Carousel Dots -->
+                <div class="carousel-dots">
+                    <span class="dot active" onclick="goToSlide(0)"></span>
+                    <span class="dot" onclick="goToSlide(1)"></span>
+                    <span class="dot" onclick="goToSlide(2)"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories -->
+        <section class="categories">
+            <div class="category-pills">
+                <div class="pill active" data-category="all">All</div>
+
+                <div class="pill" data-category="optical character recognition">Optical character recognition </div>
+
+                <div class="pill" data-category="Digit recognition using gui">Digit recognition using gui</div>
+
+                <div class="pill" data-category="leaf detection & disease identification using deep learning">Leaf
+                    detection & disease identification using deep learning</div>
+
+                <div class="pill" data-category="diabetes prediction using ai">Diabetes prediction using ai</div>
+
+                <div class="pill" data-category="character recognition using ml">Character recognition using ml</div>
+
+                <div class="pill" data-category="token identification using nlp">Token identification using nlp</div>
+
+                <div class="pill" data-category="advertisement sale prediction using ml">Advertisement sale prediction
+                    using ml</div>
+
+                <div class="pill" data-category="attendance system using ai">Attendance system using ai</div>
+
+                <div class="pill" data-category="market analysis using ml">Market analysis using ml</div>
+
+                <div class="pill" data-category="arduino uno basics & beyond">Arduino uno basics & beyond</div>
+
+                <div class="pill" data-category="license plate recognition using ai">License plate recognition using ai
+                </div>
+
+                <div class="pill" data-category="pcb designing">PCB designing </div>
+
+                <div class="pill" data-category="image classification using deep learning">Image Classification using
+                    Deep Learning </div>
+
+                <div class="pill" data-category="breast cancer prediction using ml in the biomedical field">Breast
+                    Cancer Prediction using ML in the Biomedical Field </div>
+
+                <div class="pill" data-category="deep learning algorithms">Deep Learning Algorithms </div>
+
+                <div class="pill" data-category="ai based gesture recognition in embedded systems">AI Based Gesture
+                    Recognition in Embedded Systems </div>
+
+                <div class="pill" data-category="road sign detection using ai">Road Sign Detection using AI </div>
+
+                <div class="pill" data-category="digital image processing using matlab">Digital Image Processing using
+                    Matlab </div>
+
+                <div class="pill" data-category="object detection using ai">Object Detection using AI </div>
+
+                <div class="pill" data-category="matlab">Matlab </div>
+
+                <div class="pill" data-category="how to detect moving object using ai">How to detect moving object using
+                    ai </div>
+
+                <div class="pill" data-category="printed circuit board (pcb) designing">Printed Circuit Board (PCB)
+                    Designing </div>
+
+                <div class="pill" data-category="height prediction using machine learning">Height Prediction using
+                    Machine
+                    Learning </div>
+
+                <div class="pill" data-category="ai based gesture recognition in embedded systems">AI Based Gesture
+                    Recognition in Embedded Systems </div>
+
+                <div class="pill" data-category="how to predict the house price using machine learning">How to Predict
+                    the
+                    House Price Using Machine Learning </div>
+
+                <div class="pill" data-category="internet of things">Internet of Things </div>
+
+                <div class="pill" data-category="car detection using ai">Car Detection using AI </div>
+
+                <div class="pill" data-category="machine learning to predict the exam marks">Machine Learning to Predict
+                    the Exam Marks </div>
+
+
+                <div class="pill" data-category="machine learning how to predict the salary easily">Machine Learning How
+                    to
+                    Predict the Salary Easily </div>
+
+                <div class="pill" data-category="ai on camera : face detection and tracking using python">AI on Camera :
+                    Face Detection and Tracking Using Python </div>
+
+                <div class="pill" data-category="snake game using ai">Snake Game Using AI </div>
+
+                <div class="pill" data-category="object detection using color">Object Detection Using Color </div>
+
+                <div class="pill" data-category="matplotlib using for data visualization in machine learning">Matplotlib
+                    Using for Data Visualization in Machine Learning </div>
+
+                <div class="pill" data-category="email spam detection">Email Spam Detection </div>
+
+                <div class="pill" data-category="natural language processing webinar">Natural Language Processing
+                    Webinar </div>
+
+                <div class="pill" data-category="machine learning">Machine Learning </div>
+
+                <div class="pill" data-category="real time drowsiness detection system">Real Time Drowsiness Detection
+                    System </div>
+
+                <div class="pill" data-category="hand gesture recognition">Hand Gesture Recognition </div>
+
+                <div class="pill" data-category="real time face recognition">Real Time Face Recognition </div>
+
+                <div class="pill" data-category="deep learning webinar">Deep Learning Webinar </div>
+
+                <div class="pill" data-category="heart disease prediction using ml">Heart Disease Prediction Using ML
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- Course Grid -->
+        <section class="course-grid">
+            <!-- Course 1 -->
+
+
+
+        </section>
+    </main>
+</body>
+
+<script src="script.js"></script>
+<script src="carousel.js"></script>
+<script>
+    // Dynamic Course Loading
+    function renderCourses() {
+        const masterDefaults = [
+            { id: 1, title: 'Optical character recognition', category: 'optical character recognition', thumb: 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'Optical-character-recognition.html' },
+
+
+            { id: 2, title: 'Digit recognition using gui', category: 'Digit recognition using gui', thumb: 'https://images.unsplash.com/photo-1599507593499-a3f7d7d97667?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'Digit-recognition-using-gui.html' },
+
+
+            { id: 3, title: 'leaf detection & disease identification using deep learning', category: 'leaf detection & disease identification using deep learning', thumb: 'https://images.unsplash.com/photo-1518531933037-91b2f5d2294c?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'lddi.html' },
+
+
+            { id: 4, title: 'diabetes prediction using ai', category: 'diabetes prediction using ai', thumb: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'diabetes-prediction-using-ai.html' },
+
+
+            { id: 5, title: 'web advertisement optimization using ml', category: 'web advertisement optimization using ml', thumb: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'web-advertisement-optimization-using-ml.html' },
+
+
+            { id: 6, title: 'character recognition using ml', category: 'character recognition using ml', thumb: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'character-recognition-using-ml.html' },
+
+
+            { id: 7, title: 'token identification using nlp', category: 'token identification using nlp', thumb: 'https://images.unsplash.com/photo-1555421689-4922d538363c?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'token-identification-using-nlp.html' },
+
+
+            { id: 8, title: 'advertisement sale prediction using ml', category: 'advertisement sale prediction using ml', thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'advertisement-sale-prediction-using ml.html' },
+
+
+            { id: 9, title: 'attendance system using ai', category: 'attendance system using ai', thumb: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'attendance-system-using-ai.html' },
+
+
+            { id: 10, title: 'market analysis using ml', category: 'market analysis using ml', thumb: 'https://images.unsplash.com/photo-1611974765270-ca1258822981?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'market-analysis-using-ml.html' },
+
+
+            { id: 11, title: 'arduino uno basics & beyond', category: 'arduino uno basics & beyond', thumb: 'https://images.unsplash.com/photo-1565439305461-4db778526624?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'arduino-uno-basics-beyond.html' },
+
+
+            { id: 12, title: 'license plate recognition using ai', category: 'license plate recognition using ai', thumb: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'license-plate-recognition-using-ai.html' },
+
+
+            { id: 13, title: 'pcb designing', category: 'pcb designing', thumb: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'pcb-designing.html' },
+
+
+            { id: 14, title: 'image classification using deep learning', category: 'image classification using deep learning', thumb: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'image-classification-using-deep-learning.html' },
+
+
+            { id: 15, title: 'breast cancer prediction using ml in the biomedical field', category: 'breast cancer prediction using ml in the biomedical field', thumb: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'breast-cancer-prediction-using-ml-in-the-biomedical-field.html' },
+
+
+            { id: 16, title: 'deep learning algorithms', category: 'deep learning algorithms', thumb: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'deep-learning-algorithms.html' },
+
+
+            { id: 17, title: 'ai based gesture recognition in embedded systems', category: 'ai based gesture recognition in embedded systems', thumb: 'https://images.unsplash.com/photo-1555532538-dcdbd01d373d?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'ai-based-gesture-recognition-in-embedded-systems.html' },
+
+
+            { id: 18, title: 'road sign detection using ai', category: 'road sign detection using ai', thumb: 'https://images.unsplash.com/photo-1566679056-553e8a27f48f?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'road-sign-detection-using-ai.html' },
+
+
+            { id: 19, title: 'digital image processing using matlab', category: 'digital image processing using matlab', thumb: 'https://images.unsplash.com/photo-1543333034-70a4a60dc4dc?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'digital-image-processing-using-matlab.html' },
+
+
+            { id: 20, title: 'object detection using ai', category: 'object detection using ai', thumb: 'https://images.unsplash.com/photo-1535378437327-182e88a09bc2?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'object-detection-using-ai.html' },
+
+
+            { id: 21, title: 'matlab', category: 'matlab', thumb: 'https://images.unsplash.com/photo-1629904853716-f004b3774817?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'matlab.html' },
+
+
+            { id: 22, title: 'how to detect moving object using ai', category: 'how to detect moving object using ai', thumb: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'how-to-detect-moving-object-using-ai.html' },
+
+
+            { id: 23, title: 'printed circuit board (pcb) designing', category: 'printed circuit board (pcb) designing', thumb: 'https://images.unsplash.com/photo-1616469829941-c7200edec809?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'printed-circuit-board-pcb-designing.html' },
+
+
+            { id: 24, title: 'height prediction using machine learning', category: 'height prediction using machine learning', thumb: 'https://images.unsplash.com/photo-1555952494-efd681c7e3f9?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'height-prediction-using-machine-learning.html' },
+
+
+            { id: 25, title: 'how to predict the house price using machine learning', category: 'how to predict the house price using machine learning', thumb: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'how-to-predict-the-house-price-using-machine-learning.html' },
+
+
+            { id: 26, title: 'internet of things', category: 'internet of things', thumb: 'https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'internet-of-things.html' },
+
+
+            { id: 27, title: 'car detection using ai', category: 'car detection using ai', thumb: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'car-detection-using-ai.html' },
+
+
+            { id: 28, title: 'machine learning to predict the exam mark', category: 'machine learning to predict the exam mark', thumb: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'machine-learning-to-predict-the-exam-mark.html' },
+
+
+            { id: 29, title: 'machine learning to predict who survived the titanic', category: 'machine learning to predict who survived the titanic', thumb: 'https://images.unsplash.com/photo-1506057213367-028a17ec52e5?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'machine-learning-to-predict-who-survived-the-titanic.html' },
+
+
+            { id: 30, title: 'machine learning how to predict the salary easily', category: 'machine learning how to predict the salary easily', thumb: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'machine-learning-how-to-predict-the-salary-easily.html' },
+
+
+            { id: 31, title: 'ai on camera : face detection and tracking using python', category: 'ai on camera : face detection and tracking using python', thumb: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'ai-on-camera-face-detection-and-tracking-using-python.html' },
+
+
+            { id: 32, title: 'snake game using ai', category: 'snake game using ai', thumb: 'https://images.unsplash.com/photo-1536536982624-06c1776e0ca8?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'snake-game-using-ai.html' },
+
+
+            { id: 33, title: 'object detection using color', category: 'object detection using color', thumb: 'https://images.unsplash.com/photo-1507608869274-2c33ee13db85?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'object-detection-using-color.html' },
+
+
+            { id: 34, title: 'matplotlib using for data visualization in machine learning', category: 'matplotlib using for data visualization in machine learning', thumb: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'matplotlib-using-for-data-visualization-in-machine-learning.html' },
+
+
+            { id: 35, title: 'email spam detection', category: 'email spam detection', thumb: 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'email-spam-detection.html' },
+
+
+            { id: 36, title: 'natural language processing webinar', category: 'natural language processing webinar', thumb: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'natural-language-processing-webinar.html' },
+
+
+            { id: 37, title: 'machine learning', category: 'machine learning', thumb: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'machine-learning.html' },
+
+
+            { id: 38, title: 'real time drowsiness detection system', category: 'real time drowsiness detection system', thumb: 'https://images.unsplash.com/photo-1506484834241-d6482dd2e684?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'real-time-drowsiness-detection-system.html' },
+
+
+            { id: 39, title: 'hand gesture recognition', category: 'hand gesture recognition', thumb: 'https://images.unsplash.com/photo-1516083692305-618d35d97227?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'hand-gesture-recognition.html' },
+
+
+            { id: 40, title: 'real time face recognition', category: 'real time face recognition', thumb: 'https://images.unsplash.com/photo-1594918732155-27bed9d3d2dc?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'real-time-face-recognition.html' },
+
+
+            { id: 41, title: 'hands on training in computer vision', category: 'hands on training in computer vision', thumb: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'hands-on-training-in-computer-vision.html' },
+
+
+            { id: 42, title: 'hands on training in phyton', category: 'hands on training in phyton', thumb: 'https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'hands-on-training-in-phyton.html' },
+
+
+            { id: 43, title: 'artificial intelligence webinar', category: 'artificial intelligence webinar', thumb: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'artificial-intelligence-webinar.html' },
+
+
+            { id: 44, title: 'real time facial emotion recognition', category: 'real time facial emotion recognition', thumb: 'https://images.unsplash.com/photo-1550921008-0113f97204f1?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'real-time-facial-emotion-recognition.html' },
+
+
+            { id: 45, title: 'deep learning webinar', category: 'deep learning webinar', thumb: 'https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'deep-learning-webinar.html' },
+
+
+            { id: 46, title: 'heart disease prediction using ml', category: 'heart disease prediction using ml', thumb: 'https://images.unsplash.com/photo-1576091160550-2187d80aeff4?auto=format&fit=crop&w=600&q=80', lessons: 1, page: 'heart-disease-prediction-using-ml.html' }
+        ];
+
+        const savedCourses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+        const courseGrid = document.querySelector('.course-grid');
+        if (!courseGrid) return;
+
+        courseGrid.innerHTML = '';
+
+        // Combine logic: 
+        // 1. Show all master defaults.
+        // 2. Add any additional courses from savedCourses that aren't in defaults (by title).
+        let displayList = [...masterDefaults];
+
+        savedCourses.forEach(saved => {
+            // Filter out legacy default courses (ID 1-15) to prevent them from reappearing
+            if (saved.id <= 46) return;
+
+            const isDefault = masterDefaults.some(d => d.title.toLowerCase() === saved.title.toLowerCase());
+            if (!isDefault) {
+                displayList.push(saved);
+            }
+        });
+
+        // Dynamic Pill Generation
+        const pillContainer = document.querySelector('.category-pills');
+        const existingCategories = Array.from(pillContainer.querySelectorAll('.pill'))
+            .map(p => p.getAttribute('data-category').toLowerCase());
+
+        const newCategories = new Set();
+        displayList.forEach(course => {
+            if (course.category && !existingCategories.includes(course.category.toLowerCase())) {
+                newCategories.add(course.category);
+            }
+        });
+
+        newCategories.forEach(cat => {
+            const pill = document.createElement('div');
+            pill.className = 'pill';
+            pill.setAttribute('data-category', cat);
+            pill.textContent = cat;
+            pillContainer.appendChild(pill);
+            existingCategories.push(cat.toLowerCase()); // Avoid duplicates in this loop
+        });
+
+        displayList.forEach(course => {
+            // Repair metadata if missing (for newly added ones)
+            if (!course.thumb) course.thumb = 'course_placeholder.jpg';
+            if (!course.page) course.page = 'course_details.html';
+            if (!course.category) course.category = 'General';
+            if (!course.lessons) course.lessons = 1; // Default to 1 lesson for new courses
+
+            const article = document.createElement('article');
+            article.className = 'course-card';
+            article.setAttribute('data-category', course.category);
+            article.style.cursor = 'pointer';
+
+            article.onclick = () => {
+                window.location.href = `${course.page}?course=${encodeURIComponent(course.title)}`;
+            };
+
+            article.innerHTML = `
+                <img src="${course.thumb}" class="course-thumb" alt="${course.title}" onerror="this.src='IIT-Photoroom.png'">
+                <div class="course-info">
+                    <span class="course-tag">Learn ${course.category}</span>
+                    <h3 class="course-title">${course.title}</h3>
+                    <div class="course-meta">
+                        <div class="lesson-info">
+                            <i class="bi bi-play-circle-fill play-icon"></i>
+                            <span>${course.lessons} Lessons</span>
+                        </div>
+                        <button class="buy-btn" onclick="buyCourse(event, '${course.title}')">Buy</button>
+                    </div>
+                </div>
+            `;
+            courseGrid.appendChild(article);
+        });
+
+        // Re-attach event listeners for ALL pills (including new ones)
+        attachPillListeners();
+    }
+
+    function attachPillListeners() {
+        const pills = document.querySelectorAll('.pill');
+        pills.forEach(pill => {
+            // Remove old listeners to avoid duplicates if called multiple times (though here it's once)
+            // Cloning node is a quick way to strip listeners, but simply re-selecting is fine since we run this once on load.
+            pill.onclick = () => {
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                const category = pill.getAttribute('data-category').toLowerCase();
+                const cards = document.querySelectorAll('.course-card');
+
+                cards.forEach(card => {
+                    const cardCategory = (card.getAttribute('data-category') || '').toLowerCase();
+                    // Flexible matching for categories that might have slight variations or spaces
+                    if (category === 'all' || cardCategory === category || cardCategory.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            };
+        });
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCourses();
+    });
+
+    function checkAuth() {
+        const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!loggedUser) {
+            alert("Please log in to access this course.");
+            sessionStorage.setItem('authAction', 'login');
+            window.location.href = 'index.html';
+            return false;
+        }
+
+        // Ensure loggedUser data is fresh from registeredUsers
+        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        const user = registeredUsers.find(u => (u.email || '').toLowerCase().trim() === (loggedUser.email || '').toLowerCase().trim());
+        if (user) {
+            localStorage.setItem('loggedInUser', JSON.stringify(user)); // Update loggedInUser with fresh data
+        } else {
+            // User not found in registeredUsers, something is wrong or user was deleted
+            alert("User data not found. Please log in again.");
+            sessionStorage.setItem('authAction', 'login');
+            window.location.href = 'index.html';
+            return false;
+        }
+
+
+        if (!user || !user.accessGranted) {
+            alert("Approval Required: Your access is currently pending admin approval. Please wait for the administrator to approve your account.");
+            return false;
+        }
+        return true;
+    }
+
+    function checkCourseAccess(courseName) {
+        if (!checkAuth()) return false;
+
+        const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        const user = registeredUsers.find(u => (u.email || '').toLowerCase().trim() === (loggedUser.email || '').toLowerCase().trim());
+
+        if (!user || !user.purchasedCourses || !user.purchasedCourses.some(c => c.toLowerCase().trim() === courseName.toLowerCase().trim())) {
+            alert(`Access Denied: You haven't purchased "${courseName}" yet or your purchase is pending approval.`);
+            return false;
+        }
+        return true;
+    }
+
+
+
+    document.getElementById('myLearningBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!user) {
+            alert("Please log in to access this course.");
+            sessionStorage.setItem('authAction', 'login');
+            window.location.href = 'index.html';
+            return;
+        }
+        window.location.href = 'my_learning.html';
+    });
+
+    function buyCourse(event, courseName) {
+        event.stopPropagation();
+        let loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (loggedUser) {
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            const userIdx = registeredUsers.findIndex(u => (u.email || '').toLowerCase().trim() === (loggedUser.email || '').toLowerCase().trim());
+
+            if (userIdx !== -1) {
+                const user = registeredUsers[userIdx];
+                if (!user.interestedCourses) user.interestedCourses = [];
+                if (!user.purchasedCourses) user.purchasedCourses = [];
+
+                // Check if already has it
+                const inPurchased = user.purchasedCourses.some(c => c.toLowerCase().trim() === courseName.toLowerCase().trim());
+                const inInterested = user.interestedCourses.some(c => c.toLowerCase().trim() === courseName.toLowerCase().trim());
+
+                if (!inPurchased && !inInterested) {
+                    // Always send to interestedCourses (pending) regardless of accessGranted status
+                    user.interestedCourses.push(courseName);
+                    alert(`Request for "${courseName}" sent to Admin for approval.`);
+
+                    // Save to BOTH locations
+                    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+                    localStorage.setItem('loggedInUser', JSON.stringify(user));
+                } else if (inPurchased) {
+                    alert("You already have access to this course!");
+                } else {
+                    alert("Your request for this course is already pending approval.");
+                }
+            }
+        }
+
+        const googleFormUrl = "https://forms.gle/W2EtPreWH7Rri51E6";
+        window.open(googleFormUrl, '_blank');
+    }
+
+</script>
+
+</html>

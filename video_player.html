@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom | Indian Info Tech</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        /* Certificate Modal Styles */
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .certificate-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .certificate-container {
+            width: 900px;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            color: #333;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .certificate-modal.show .certificate-container {
+            transform: scale(1);
+        }
+
+        .certificate-content-new {
+            border: 10px solid #5e35b1;
+            padding: 3rem;
+            position: relative;
+            background: #fff;
+            background-image: radial-gradient(#667eea 0.5px, transparent 0.5px), radial-gradient(#667eea 0.5px, #fff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-color: #fafafa;
+        }
+
+        .corner-wave {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: #5e35b1;
+            z-index: 0;
+        }
+
+        .top-right {
+            top: -10px;
+            right: -10px;
+            border-bottom-left-radius: 100%;
+        }
+
+        .bottom-left {
+            bottom: -10px;
+            left: -10px;
+            border-top-right-radius: 100%;
+        }
+
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cert-main-title {
+            font-family: serif;
+            font-size: 4rem;
+            color: #1a237e;
+            text-align: center;
+            margin: 0;
+            letter-spacing: 5px;
+            font-weight: 700;
+        }
+
+        .cert-sub-title {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .cert-present-line {
+            text-align: center;
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .input-name {
+            font-family: 'Great Vibes', cursive;
+            /* Or any script font available */
+            font-size: 3.5rem;
+            color: #d32f2f;
+            text-align: center;
+            margin: 1rem 0;
+            border-bottom: 2px solid #ddd;
+            display: inline-block;
+            min-width: 400px;
+            padding-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Fallback for script font if not loaded */
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+        .cert-body-main {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cert-text-block {
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #444;
+            max-width: 80%;
+            margin: 0 auto 3rem auto;
+        }
+
+        .course-name-highlight {
+            font-weight: 700;
+            color: #1565c0;
+            font-size: 1.3rem;
+        }
+
+        .cert-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 2rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .sign-img {
+            height: 60px;
+            margin-bottom: -10px;
+        }
+
+        .sign-line {
+            width: 200px;
+            height: 1px;
+            background: #333;
+            margin: 5px auto;
+        }
+
+        .sign-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .sign-role {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .gold-seal {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #FFD700, #FDB931);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .seal-inner {
+            text-align: center;
+            color: #8B4513;
+            font-weight: bold;
+            border: 2px dashed #8B4513;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cert-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .print-btn,
+        .close-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .print-btn {
+            background: #5e35b1;
+            color: white;
+        }
+
+        .print-btn:hover {
+            background: #4527a0;
+        }
+
+        .close-btn {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .close-btn:hover {
+            background: #d5d5d5;
+        }
+
+        /* Sidebar Button Style */
+        .get-cert-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #333;
+            /* Default locked state */
+            color: #888;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: fall linear forwards;
+            top: -10px;
+            z-index: 99999;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #certificateModal,
+            #certificateModal * {
+                visibility: visible;
+            }
+
+            #certificateModal {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                z-index: 9999;
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .certificate-container {
+                box-shadow: none;
+                transform: scale(1) !important;
+                margin: 0;
+                page-break-inside: avoid;
+            }
+
+            .cert-actions {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+
+    <div class="video-page-layout">
+        <!-- Sidebar Playlist -->
+        <aside class="playlist-sidebar">
+            <div class="course-header">
+                <a href="teach_dashboard.html"
+                    style="color: #888; text-decoration: none; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">&larr;
+                    Back to Course Overview</a>
+                <h2 id="courseNameHeader">100K Coding Challenge</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div id="courseProgressText" style="margin-top: 0.5rem; font-size: 0.8rem; color: #888;">0% Complete
+                </div>
+            </div>
+
+            <ul class="lesson-list" id="lessonList">
+                <!-- Lessons populated dynamically -->
+            </ul>
+            <div style="padding: 1rem; border-top: 1px solid #333;">
+                <button id="getCertificateBtn" onclick="showCertificate()" class="get-cert-btn" style="display: none;">
+                    <i class="bi bi-award-fill" id="certIcon"></i> Get Certificate
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Video Area -->
+        <main class="video-main">
+            <div class="video-container">
+                <div id="mainPlayer"></div>
+            </div>
+
+            <div class="video-info">
+                <div class="video-header-row">
+                    <div>
+                        <h1 class="video-title" id="videoTitle" style="margin-bottom: 0.5rem;">Part 2 | Variables & Data
+                            Types</h1>
+                    </div>
+                    <button id="markCompleteBtn" onclick="markAsCompleted()" class="mark-complete-btn">
+                        Mark as Complete <i class="bi bi-check-circle"></i>
+                    </button>
+                </div>
+
+                <!-- Completion Certificate Section -->
+                <div id="bottomCertSection"
+                    style="display: none; margin: 2rem 0; padding: 2.5rem; background: linear-gradient(135deg, rgba(40, 167, 69, 0.1) 0%, rgba(20, 83, 34, 0.2) 100%); border: 2px solid #28a745; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: slideInUp 0.8s ease-out;">
+                    <div style="margin-bottom: 1.5rem;">
+                        <i class="bi bi-patch-check-fill"
+                            style="font-size: 3.5rem; color: #d4af37; filter: drop-shadow(0 0 10px rgba(212,175,55,0.5));"></i>
+                    </div>
+                    <h2
+                        style="color: white; font-size: 2rem; margin-bottom: 0.5rem; font-family: 'Barlow', sans-serif;">
+                        Course Completed!</h2>
+                    <p
+                        style="color: #ccc; font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Outstanding work! You've successfully mastered all the modules of this course. Your official
+                        certificate is now ready for download.</p>
+                    <button onclick="showCertificate()" class="get-cert-btn"
+                        style="display: inline-flex; width: auto; padding: 1rem 2.5rem; background: #28a745; color: white; cursor: pointer; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(40,167,69,0.4); border-radius: 50px;">
+                        <i class="bi bi-award-fill"></i> Claim Your Certificate
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <div id="commentsList">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Certificate Modal moved to body for better z-index handling -->
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="certificate-modal">
+        <div class="certificate-container">
+            <!-- Decorative Corners/Background -->
+            <div class="corner-wave top-right"></div>
+            <div class="corner-wave bottom-left"></div>
+
+            <div class="certificate-content-new">
+                <!-- Header -->
+                <div class="cert-header">
+                    <div class="cert-logo-section">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="IIT-icon.png" alt="Logo" style="width: 60px; height: auto;">
+                            <div>
+                                <h2
+                                    style="margin: 0; color: #d32f2f; font-family: serif; font-size: 1.8rem; line-height: 1;">
+                                    Indian Info Tech</h2>
+                                <p
+                                    style="margin: 4px 0 0 0; color: #1565c0; font-size: 0.75rem; font-weight: bold; font-style: italic;">
+                                    Research & Development Center</p>
+                                <p style="margin: 0; color: #333; font-size: 0.6rem;">(Affiliated to NIELIT (2015), Gov
+                                    of India, Delhi)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-seal-section">
+                        <div class="gold-seal">
+                            <div class="seal-inner">
+                                <span style="font-size: 0.7rem; display: block;">14</span>
+                                <span style="font-size: 0.6rem; display: block;">YEARS</span>
+                                <span style="font-size: 0.4rem;">EXCELLENCE</span>
+                            </div>
+                            <div class="ribbon-tail left"></div>
+                            <div class="ribbon-tail right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="cert-body-main">
+                    <h1 class="cert-main-title">CERTIFICATE</h1>
+                    <p class="cert-sub-title">OF PARTICIPATION</p>
+
+                    <p class="cert-present-line">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+
+                    <div class="input-name" id="certUserName">Student Name</div>
+
+                    <div class="cert-text-block">
+                        has successfully completed the online course on<br>
+                        <span class="course-name-highlight">"<span id="certCourseName">Course Name</span>"</span>
+                        held on <span id="certDate" class="cert-date">Month date year</span>
+                        <br>
+                        Conducted by <span style="font-weight: 700;">Indian Info Tech</span>, Research & Development
+                        Center
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="cert-footer-row">
+                    <!-- Signature -->
+                    <div class="signature-block">
+                        <img src="Thiyagu_new_signature.png" alt="Signature" class="sign-img"
+                            onerror="this.style.display='none'">
+                        <div class="sign-line"></div>
+                        <div class="sign-name">DR.V.THIYAGU</div>
+                        <div class="sign-role">Director<br>Indian Info Tech</div>
+                    </div>
+
+                    <!-- Stamp -->
+                    <div class="stamp-block">
+                        <div class="circular-stamp">
+                            <svg viewBox="0 0 100 100" width="80" height="80">
+                                <path id="curve" d="M 10, 50 A 40, 40 0 1, 1 90, 50 A 40, 40 0 1, 1 10, 50"
+                                    fill="transparent" />
+                                <text width="100">
+                                    <textPath xlink:href="#curve" startOffset="50%" text-anchor="middle" fill="#5e35b1"
+                                        font-size="10" font-weight="bold" font-family="Arial">
+                                        Indian Info Tech • Namakkal •
+                                    </textPath>
+                                </text>
+                                <text x="50" y="55" text-anchor="middle" fill="#5e35b1" font-size="20"
+                                    font-weight="bold">★</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="cert-actions">
+                <button onclick="window.print()" class="print-btn" style="background: #17a2b8; margin-right: 10px;"><i
+                        class="bi bi-printer"></i> Print</button>
+                <button onclick="downloadCertificatePDF()" class="print-btn"><i class="bi bi-download"></i>
+                    Download</button>
+                <button onclick="closeCertificate()" class="close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress State (Will be updated dynamically)
+        let COURSE_KEY = 'progress-default';
+        let completedVideos = [];
+        let player; // YouTube User Player Instance
+        let progressInterval;
+        let isVideoCompleted = false;
+
+        // Get user name
+        const signedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        const userName = signedUser ? (signedUser.fullname || signedUser.name || signedUser.username || signedUser.firstName || signedUser.email || 'Valued Student') : 'Valued Student';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check auth and approval
+            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedUser) {
+                alert("Please log in to access this course.");
+                sessionStorage.setItem('authAction', 'login');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            const user = registeredUsers.find(u => u.email.toLowerCase() === (loggedUser.email || '').toLowerCase());
+
+            // Explicitly update global userName from the latest session data
+            window.userName = user ? (user.fullname || user.name || user.username || user.email || 'Valued Student') : (loggedUser.fullname || loggedUser.name || 'Valued Student');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseName = urlParams.get('course');
+
+            const hasAccess = user && user.purchasedCourses && user.purchasedCourses.some(c => c.toLowerCase() === (courseName || '').toLowerCase());
+
+            if (!hasAccess) {
+                alert("Access Denied: You haven't purchased this course yet or your purchase is pending approval.");
+                window.location.href = 'teach_dashboard.html';
+                return;
+            }
+
+            // Update Course Key and Load Progress (User-Specific)
+            const userIdentifier = (loggedUser.email || 'guest').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+            COURSE_KEY = `progress-${userIdentifier}-${(courseName || 'default').replace(/\s+/g, '-').toLowerCase()}`;
+
+            // Migration: Check for legacy progress (non-user-specific) and migrate once
+            const legacyKey = `progress-${(courseName || 'default').replace(/\s+/g, '-').toLowerCase()}`;
+            if (!localStorage.getItem(COURSE_KEY) && localStorage.getItem(legacyKey)) {
+                localStorage.setItem(COURSE_KEY, localStorage.getItem(legacyKey));
+                const legacyDate = localStorage.getItem('date-' + legacyKey);
+                if (legacyDate) localStorage.setItem('date-' + COURSE_KEY, legacyDate);
+            }
+
+            completedVideos = JSON.parse(localStorage.getItem(COURSE_KEY)) || [];
+
+            // Data Migration & Sanitization
+            // Ensure all entries are integers to fix potential string/number mismatch issues
+            if (completedVideos.length > 0) {
+                // Convert all to numbers and remove duplicates/NaNs
+                completedVideos = [...new Set(completedVideos.map(v => parseInt(v, 10)).filter(n => !isNaN(n)))];
+                localStorage.setItem(COURSE_KEY, JSON.stringify(completedVideos));
+            }
+
+            // Setup Course Specific Lessons
+            const courseLessons = {
+                "default": [
+                    { id: "zOjov-2OZ0E", title: "Part 1 | Introduction to Course", duration: "10 min" },
+                    { id: "8dWL3wF_OMw", title: "Part 2 | Fundamentals & Basics", duration: "15 min" },
+                    { id: "W6NZfCO5SIk", title: "Part 3 | Core Concepts & Design", duration: "20 min" },
+                    { id: "pkjd7hqtqfE", title: "Part 4 | Technical Implementation", duration: "22 min" },
+                    { id: "hdI2bqOjy3c", title: "Part 5 | Project Review & Summary", duration: "18 min" }
+                ],
+                "OPTICAL CHARACTER RECOGNITION": [{ id: "kYLjHmr6WrY", title: "Complete Course | OPTICAL CHARACTER RECOGNITION", duration: "1 hr" }],
+                "DIGIT RECOGNITION USING GUI": [{ id: "5omBjTaYunU", title: "Complete Course | DIGIT RECOGNITION USING GUI", duration: "1 hr" }],
+                "LEAF DETECTION & DISEASE IDENTIFICATION USING DEEP LEARNING": [{ id: "a_xvkb7ajPg", title: "Complete Course | LEAF DETECTION & DISEASE IDENTIFICATION", duration: "1 hr" }],
+                "DIABETES PREDICTION USING AI": [{ id: "i2L1OC8FvrE", title: "Complete Course | DIABETES PREDICTION USING AI", duration: "1 hr" }],
+                "WEB ADVERTISEMENT OPTIMIZATION USING ML": [{ id: "GEDrNzXbQtc", title: "Complete Course | WEB ADVERTISEMENT OPTIMIZATION USING ML", duration: "1 hr" }],
+                "CHARACTER RECOGNITION USING ML": [{ id: "dFczrty4jLI", title: "Complete Course | CHARACTER RECOGNITION USING ML", duration: "1 hr" }],
+                "TOKEN IDENTIFICATION USING NLP": [{ id: "3wAGzNPM-fA", title: "Complete Course | TOKEN IDENTIFICATION USING NLP", duration: "1 hr" }],
+                "ADVERTISEMENT SALE PREDICTION USING ML": [{ id: "ReWmXNbcwYs", title: "Complete Course | ADVERTISEMENT SALE PREDICTION USING ML", duration: "1 hr" }],
+                "ATTENDANCE SYSTEM USING AI": [{ id: "ePVkdvy1wYg", title: "Complete Course | ATTENDANCE SYSTEM USING AI", duration: "1 hr" }],
+                "MARKET ANALYSIS USING ML": [{ id: "70JNGg1oGLA", title: "Complete Course | MARKET ANALYSIS USING ML", duration: "1 hr" }],
+                "ARDUINO UNO BASICS & BEYOND": [{ id: "tOWIfDIOHGY", title: "Complete Course | ARDUINO UNO BASICS & BEYOND", duration: "1 hr" }],
+                "LICENSE PLATE RECOGNITION USING AI": [{ id: "W6LOA3s5oyI", title: "Complete Course | LICENSE PLATE RECOGNITION USING AI", duration: "1 hr" }],
+                "PCB DESIGNING": [{ id: "X6OvGDVYWQ8", title: "Complete Course | PCB DESIGNING", duration: "1 hr" }],
+                "IMAGE CLASSIFICATION USING DEEP LEARNING": [{ id: "eerK4gs26Bw", title: "Complete Course | IMAGE CLASSIFICATION USING DEEP LEARNING", duration: "1 hr" }],
+                "BREAST CANCER PREDICTION USING ML IN THE BIOMEDICAL FIELD": [{ id: "xKPKbeSbcvs", title: "Complete Course | BREAST CANCER PREDICTION", duration: "1 hr" }],
+                "DEEP LEARNING ALGORITHMS": [{ id: "NZcdfk_B8hg", title: "Complete Course | DEEP LEARNING ALGORITHMS", duration: "1 hr" }],
+                "AI based Gesture Recognition in Embedded Systems": [{ id: "Ft9Ue-bemfU", title: "Complete Course | AI based Gesture Recognition", duration: "1 hr" }],
+                "ROAD SIGN DETECTION USING AI": [{ id: "GWqbabLvDDA", title: "Complete Course | ROAD SIGN DETECTION USING AI", duration: "1 hr" }],
+                "DIGITAL IMAGE PROCESSING USING MATLAB": [{ id: "CikGXVUTCRg", title: "Complete Course | DIGITAL IMAGE PROCESSING USING MATLAB", duration: "1 hr" }],
+                "OBJECT DETECTION USING AI": [{ id: "0RNykvAOrYc", title: "Complete Course | OBJECT DETECTION USING AI", duration: "1 hr" }],
+                "MATLAB": [{ id: "XZqzmgy4bGw", title: "Complete Course | MATLAB", duration: "1 hr" }],
+                "HOW TO DETECT MOVING OBJECT USING AI": [{ id: "n4Q4JNKTf1I", title: "Complete Course | HOW TO DETECT MOVING OBJECT USING AI", duration: "1 hr" }],
+                "PRINTED CIRCUIT BOARD (PCB) DESIGNING": [{ id: "VtQUrFpNb-E", title: "Complete Course | PRINTED CIRCUIT BOARD (PCB) DESIGNING", duration: "1 hr" }],
+                "HEIGHT PREDICTION USING MACHINE LEARNING": [{ id: "u_E82y06p5s", title: "Complete Course | HEIGHT PREDICTION USING MACHINE LEARNING", duration: "1 hr" }],
+                "AI Based Gesture Recognition in Embedded Systems": [{ id: "29PyEx8uGr4", title: "Complete Course | AI Based Gesture Recognition", duration: "1 hr" }],
+                "HOW TO PREDICT THE HOUSE PRICE USING MACHINE LEARNING": [{ id: "Ip5JvbDF1q0", title: "Complete Course | HOW TO PREDICT THE HOUSE PRICE", duration: "1 hr" }],
+                "INTERNET OF THINGS": [{ id: "FBRNu7gO_90", title: "Complete Course | INTERNET OF THINGS", duration: "1 hr" }],
+                "CAR DETECTION USING AI": [{ id: "Dp4CYJXlc1w", title: "Complete Course | CAR DETECTION USING AI", duration: "1 hr" }],
+                "MACHINE LEARNING TO PREDICT THE EXAM MARK": [{ id: "YRRHxeHqNUI", title: "Complete Course | USE ML TO PREDICT EXAM MARK", duration: "1 hr" }],
+                "MACHINE LEARNING TO PREDICT WHO SURVIVED THE TITANIC": [{ id: "iN2GN2ct2b8", title: "Complete Course | ML PREDICT TITANIC SURVIVOR", duration: "1 hr" }],
+                "MACHINE LEARNIING HOW TO PREDICT THE SALARY EASILY": [{ id: "osENgIVTllE", title: "Complete Course | PREDICT SALARY EASILY", duration: "1 hr" }],
+                "AI ON CAMERA : FACE DETECTION AND TRACKING USING PYTHON": [{ id: "yYT8doC85rc", title: "Complete Course | AI ON CAMERA : FACE DETECTION", duration: "1 hr" }],
+                "SNAKE GAME USING AI": [{ id: "yb6Q7Kt1iTA", title: "Complete Course | SNAKE GAME USING AI", duration: "1 hr" }],
+                "OBJECT DETECTION USING COLOR": [{ id: "yzGPk3puh_o", title: "Complete Course | OBJECT DETECTION USING COLOR", duration: "1 hr" }],
+                "MATPLOTLIB USING FOR DATA VISUALIZATION IN MACHINE LEARNING": [{ id: "pCGP6cuNOGw", title: "Complete Course | MATPLOTLIB DATA VISUALIZATION", duration: "1 hr" }],
+                "EMAIL SPAM DETECTION": [{ id: "TM614OM6-BQ", title: "Complete Course | EMAIL SPAM DETECTION", duration: "1 hr" }],
+                "NATURAL LANGUAGE PROCESSING WEBINAR": [{ id: "eTQOuM9Q3V0", title: "Complete Course | NLP WEBINAR", duration: "1 hr" }],
+                "MACHINE LEARNING": [{ id: "x3oJxbQgBMg", title: "Complete Course | MACHINE LEARNING", duration: "1 hr" }],
+                "REAL TIME DROWSINESS DETECTION SYSTEM": [{ id: "Tq_nqsma1uM", title: "Complete Course | DROWSINESS DETECTION SYSTEM", duration: "1 hr" }],
+                "HAND GESTURE RECOGNITION": [{ id: "fdOph75NFec", title: "Complete Course | HAND GESTURE RECOGNITION", duration: "1 hr" }],
+                "REAL TIME FACE RECOGNITION": [{ id: "fHMcsjenvrA", title: "Complete Course | REAL TIME FACE RECOGNITION", duration: "1 hr" }],
+                "Hands On Training In Computer vision": [{ id: "TR9QTqhoEmY", title: "Complete Course | Training In Computer vision", duration: "1 hr" }],
+                "HANDS ON TRAINING IN PHYTON": [{ id: "E-F-U51gxTw", title: "Complete Course | HANDS ON TRAINING IN PYTHON", duration: "1 hr" }],
+                "ARTIFICIAL INTELLIGENCE WEBINAR": [{ id: "Bhn1iXS6NUw", title: "Complete Course | ARTIFICIAL INTELLIGENCE WEBINAR", duration: "1 hr" }],
+                "Real Time Facial Emotion Recognition": [{ id: "LFujYLP-FTw", title: "Complete Course | Real Time Facial Emotion Recognition", duration: "1 hr" }],
+                "Deep Learning Webinar": [{ id: "rVPiSo5I248", title: "Complete Course | Deep Learning Webinar", duration: "1 hr" }],
+                "HEART DISEASE PREDICTION USING ML": [{ id: "mwCupsW2VE8", title: "Complete Course | HEART DISEASE PREDICTION USING ML", duration: "1 hr" }]
+            };
+
+            // Get lessons for current course (case-insensitive)
+            // Get lessons for current course (case-insensitive)
+            let activeLessons = courseLessons["default"];
+
+            // Check LocalStorage for Dynamic Overrides (Admin Updates)
+            const systemCourses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+            const dynamicCourse = systemCourses.find(c => c.title.toLowerCase() === (courseName || '').toLowerCase());
+
+            if (dynamicCourse && dynamicCourse.video && dynamicCourse.video.trim() !== '') {
+                // Dynamic Video Found (Single Video Course)
+                // Extract video ID from URL or use as is
+                let vidId = dynamicCourse.video.trim();
+                const urlMatch = vidId.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+                if (urlMatch && urlMatch[1]) {
+                    vidId = urlMatch[1];
+                }
+
+                activeLessons = [{
+                    id: vidId,
+                    title: `Complete Course | ${dynamicCourse.title}`,
+                    duration: "1 hr" // Default duration for single video courses
+                }];
+            } else if (courseName) {
+                // Fallback to hardcoded list
+                const foundKey = Object.keys(courseLessons).find(key => key.toLowerCase() === courseName.toLowerCase());
+                if (foundKey) activeLessons = courseLessons[foundKey];
+            }
+
+            // Render Lessons list
+            const lessonsContainer = document.getElementById('lessonList');
+            lessonsContainer.innerHTML = '';
+
+            activeLessons.forEach((lesson, index) => {
+                const li = document.createElement('li');
+                const isCompleted = completedVideos.includes(index);
+                // A lesson is unlocked if it's the first one OR the one before it is completed
+                const isUnlocked = index === 0 || completedVideos.includes(index - 1);
+
+                li.className = `lesson-item ${index === 0 ? 'active' : ''} ${isCompleted ? 'completed' : ''} ${!isUnlocked ? 'locked' : ''}`;
+                li.dataset.id = lesson.id;
+                li.dataset.index = index;
+                li.onclick = function () {
+                    // Re-check lock status on click
+                    const currentCompleted = JSON.parse(localStorage.getItem(COURSE_KEY)) || [];
+                    // Check against index - 1
+                    const canPlay = index === 0 || currentCompleted.includes(index - 1);
+
+                    if (canPlay) {
+                        playVideo(lesson.id, lesson.title, li);
+                    } else {
+                        alert("Please complete the previous lesson to unlock this one.");
+                    }
+                };
+
+                li.innerHTML = `
+                    <i class="bi ${isCompleted ? 'bi-check-circle-fill' : isUnlocked ? (index === 0 ? 'bi-play-circle-fill' : 'bi-play-circle') : 'bi-lock-fill'} lesson-status"></i>
+                    <div>
+                        <div style="font-weight: 500; font-size: 0.9rem;">${lesson.title}</div>
+                        <span style="font-size: 0.8rem; color: #666;">${lesson.duration}</span>
+                    </div>
+                `;
+                lessonsContainer.appendChild(li);
+
+                if (index === 0) {
+                    // Initial video load is now handled by onYouTubeIframeAPIReady or manual call if API is ready
+                    // We store the initial ID to load it when player is ready
+                    window.initialVideoId = lesson.id;
+                    window.initialVideoTitle = lesson.title;
+                    window.initialElement = li;
+                }
+            });
+
+            // Dynamic Course Handling
+            if (courseName) {
+                document.getElementById('courseNameHeader').textContent = courseName;
+                document.querySelector('.cert-course strong').textContent = courseName;
+                // Update page title too
+                document.title = `${courseName} | Indian Info Tech`;
+            }
+
+            // Initial check of progress - small delay to ensure DOM is fully ready
+            setTimeout(updateUIProgress, 50);
+
+            // Setup initial active video view count
+            randomizeViews();
+        });
+
+        // --- YouTube API Functions ---
+        function onYouTubeIframeAPIReady() {
+            // Default to first video if not set
+            const videoId = window.initialVideoId || '8dWL3wF_OMw';
+
+            player = new YT.Player('mainPlayer', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    'autoplay': 1,
+                    'playsinline': 1,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+
+            // Set initial title if we have it
+            if (window.initialVideoTitle) {
+                document.getElementById('videoTitle').innerText = window.initialVideoTitle;
+            }
+            if (window.initialElement) {
+                window.initialElement.classList.add('active');
+            }
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready
+            startProgressTracking();
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.ENDED) {
+                handleVideoEnd();
+            } else if (event.data == YT.PlayerState.PLAYING) {
+                startProgressTracking();
+            }
+        }
+
+        function startProgressTracking() {
+            if (progressInterval) clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                if (player && player.getCurrentTime) {
+                    const duration = player.getDuration();
+                    const currentTime = player.getCurrentTime();
+
+                    if (duration > 0) {
+                        const percent = (currentTime / duration) * 100;
+                        updateProgressBar(percent);
+
+                        // Fallback check if it's very close to end
+                        if (percent >= 99.5) {
+                            handleVideoEnd();
+                        }
+                    }
+                }
+            }, 500); // Check every 500ms
+        }
+
+        function handleVideoEnd() {
+            if (isVideoCompleted) return;
+            isVideoCompleted = true;
+            updateProgressBar(101); // Ensure it shows full
+
+            // Show Get Certificate Button
+            const certBtn = document.getElementById('getCertificateBtn');
+            const bottomCertBtn = document.getElementById('bottomCertSection');
+
+            if (certBtn) {
+                certBtn.style.display = 'flex';
+                certBtn.style.background = '#28a745';
+                certBtn.style.color = '#ffffff';
+                certBtn.style.cursor = 'pointer';
+                certBtn.disabled = false;
+                certBtn.classList.remove('locked'); // Ensure locked style is removed
+            }
+            if (bottomCertBtn) bottomCertBtn.style.display = 'block';
+
+            // Also mark as complete in the system
+            markAsCompleted();
+        }
+
+        function updateProgressBar(percentage) {
+            // Cap at 100%
+            const displayPercent = Math.min(100, Math.max(0, percentage));
+
+            const fill = document.querySelector('.progress-fill');
+            const textDiv = document.getElementById('courseProgressText');
+
+            if (fill) fill.style.width = `${displayPercent}%`;
+            if (textDiv) textDiv.classList.add('active'); // Ensure text is visible
+            // Optional: Update text to show time or percent? User asked for 0-100% progress
+            // We keep the existing text element but update it with video progress?
+            // Or do we keep course progress text separate?
+            // User said: "progress should increase from 0% to 100% based on the video timeline"
+            // I will update the text to reflect this video progress.
+            if (textDiv) textDiv.innerText = `${Math.floor(displayPercent)}% Complete`;
+        }
+
+        function playVideo(id, title, element) {
+            // Find element by data-id if not provided
+            if (!element) {
+                element = document.querySelector(`.lesson-item[data-id="${id}"]`);
+            }
+
+            // Reset completion state for new video
+            isVideoCompleted = false;
+            updateProgressBar(0);
+
+            if (player && player.loadVideoById) {
+                player.loadVideoById(id);
+            } else {
+                // Fallback if player not ready yet (shouldn't happen often with onYouTubeIframeAPIReady)
+                window.initialVideoId = id;
+            }
+
+            document.getElementById('videoTitle').innerText = title;
+            randomizeViews();
+
+            // Update active state in UI
+            document.querySelectorAll('.lesson-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (element) {
+                element.classList.add('active');
+            }
+
+            checkCurrentVideoStatus();
+        }
+
+        function getCurrentVideoId() {
+            if (player && player.getVideoData) {
+                return player.getVideoData().video_id;
+            }
+            return '';
+        }
+
+        function checkCurrentVideoStatus() {
+            const activeItem = document.querySelector('.lesson-item.active');
+            if (!activeItem) return;
+
+            const idx = parseInt(activeItem.dataset.index, 10);
+            const btn = document.getElementById('markCompleteBtn');
+            // const icon = btn.querySelector('i'); // Not critical
+
+            if (completedVideos.includes(idx)) {
+                btn.innerHTML = 'Completed <i class="bi bi-check-circle-fill"></i>';
+                btn.style.backgroundColor = '#333';
+                btn.style.color = '#00aa6c';
+                btn.disabled = true;
+            } else {
+                btn.innerHTML = 'Mark as Complete <i class="bi bi-check-circle"></i>';
+                btn.style.backgroundColor = '#00aa6c';
+                btn.style.color = 'white';
+                btn.disabled = false;
+            }
+        }
+
+        function markAsCompleted() {
+            const activeItem = document.querySelector('.lesson-item.active');
+            if (!activeItem) return;
+
+            const idx = parseInt(activeItem.dataset.index, 10);
+
+            if (!completedVideos.includes(idx)) {
+                completedVideos.push(idx);
+                localStorage.setItem(COURSE_KEY, JSON.stringify(completedVideos));
+
+                // Check for completion immediately to save date
+                const items = document.querySelectorAll('.lesson-item');
+                // If the count of completed videos matches the total items (or we consider it done)
+                // Note: completedVideos contains unique indices of completed parts.
+                if (completedVideos.length === items.length) {
+                    const now = new Date();
+                    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    const dateStr = `${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
+                    localStorage.setItem('date-' + COURSE_KEY, dateStr);
+                }
+
+                // Visual feedback
+                fireConfettiSide();
+            }
+
+            updateUIProgress();
+            checkCurrentVideoStatus();
+
+            // Check if this was the last video
+            const items = document.querySelectorAll('.lesson-item');
+            if (activeItem !== items[items.length - 1]) {
+                // Auto-play next if not the last one
+                playNextVideo();
+            } else {
+                // Optional: Alert course completion or just let the button turn green
+            }
+        }
+
+        function playNextVideo() {
+            const activeItem = document.querySelector('.lesson-item.active');
+            if (activeItem) {
+                const nextItem = activeItem.nextElementSibling;
+                if (nextItem && nextItem.classList.contains('lesson-item')) {
+                    // Simulate click to play
+                    nextItem.click();
+                    // Scroll to it if needed
+                    nextItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // No next item - Course Complete?
+                }
+            }
+        }
+
+        function updateUIProgress() {
+            // CRITICAL: Always reload from localStorage to ensure we have the latest completion data
+            // This fixes the issue where progress shows 0% even when videos are completed
+            const freshCompleted = JSON.parse(localStorage.getItem(COURSE_KEY)) || [];
+            completedVideos = [...new Set(freshCompleted.map(v => parseInt(v, 10)).filter(n => !isNaN(n)))];
+
+            const items = document.querySelectorAll('.lesson-item');
+            const total = items.length;
+            let count = 0;
+
+            items.forEach((item, index) => {
+                const icon = item.querySelector('.lesson-status');
+                const isCompleted = completedVideos.includes(index);
+
+                // Update completion state
+                if (isCompleted) {
+                    item.classList.add('completed');
+                    if (icon) {
+                        icon.className = 'bi bi-check-circle-fill lesson-status';
+                    }
+                    count++;
+                } else {
+                    item.classList.remove('completed');
+                }
+
+                // Update lock state for the NEXT item
+                const nextItem = items[index + 1];
+                if (nextItem) {
+                    const isUnlocked = isCompleted; // If current is completed, next is unlocked
+                    if (isUnlocked) {
+                        nextItem.classList.remove('locked');
+                        const nextIcon = nextItem.querySelector('.lesson-status');
+                        if (nextIcon && nextIcon.classList.contains('bi-lock-fill')) {
+                            nextIcon.className = 'bi bi-play-circle lesson-status';
+                        }
+                    } else {
+                        // Keep locked if current is not done
+                        nextItem.classList.add('locked');
+                    }
+                }
+            });
+
+            // Button State Logic
+            const certBtn = document.getElementById('getCertificateBtn');
+            const bottomCertBtn = document.getElementById('bottomCertSection');
+
+            if (certBtn) {
+                const isComplete = (count === total && total > 0);
+
+                if (isComplete) {
+                    // SHOW BUTTONS
+                    certBtn.style.display = 'flex';
+                    certBtn.style.background = '#28a745';
+                    certBtn.style.color = '#ffffff';
+                    certBtn.style.cursor = 'pointer';
+                    certBtn.style.pointerEvents = 'auto';
+
+                    if (bottomCertBtn) {
+                        bottomCertBtn.style.display = 'block';
+                    }
+
+                    // Trigger param check only if complete
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.get('showCert') === 'true') {
+                        const newUrl = window.location.pathname + '?course=' + urlParams.get('course');
+                        window.history.replaceState({}, document.title, newUrl);
+                        setTimeout(showCertificate, 500);
+                    }
+                } else {
+                    // HIDE BUTTONS
+                    certBtn.style.display = 'none';
+                    if (bottomCertBtn) {
+                        bottomCertBtn.style.display = 'none';
+                    }
+                }
+            }
+        }
+
+
+        function showCertificate() {
+            // Get current date or saved completion date
+            const dateKey = 'date-' + COURSE_KEY;
+            let savedDate = localStorage.getItem(dateKey);
+
+            if (!savedDate) {
+                const now = new Date();
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                savedDate = `${months[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
+            }
+
+            // Get course name from URL or header
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseName = urlParams.get('course') || document.getElementById('courseNameHeader').textContent || 'Professional Course';
+
+            // Populate certificate fields
+            document.getElementById('certUserName').textContent = userName;
+            document.getElementById('certCourseName').textContent = courseName;
+            document.getElementById('certDate').textContent = savedDate;
+
+            const modal = document.getElementById('certificateModal');
+            modal.classList.add('show');
+            fireConfettiFull();
+        }
+
+
+
+        function closeCertificate() {
+            document.getElementById('certificateModal').classList.remove('show');
+        }
+
+        function downloadCertificatePDF() {
+            const element = document.querySelector('.certificate-container');
+            const actions = document.querySelector('.cert-actions');
+
+            // Hide actions for PDF generation
+            const originalDisplay = actions.style.display;
+            actions.style.display = 'none';
+
+            const opt = {
+                margin: 0.2,
+                filename: 'IIT_Namakkal_Certificate.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                actions.style.display = originalDisplay;
+            }).catch(err => {
+                console.warn("PDF Generation via Library Failed (likely CORS/LocalFile), falling back to Print:", err);
+                actions.style.display = originalDisplay;
+                window.print();
+            });
+        }
+
+        function fireConfettiSide() {
+            // Simple visual feedback could go here
+        }
+
+        function fireConfettiFull() {
+            // Create some confetti elements
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.background = ['#f00', '#0f0', '#00f', '#ff0', '#f0f'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // --- Original / Helper Functions ---
+
+        function toggleSubscribe(btn) {
+            if (btn.innerText === 'Subscribe') {
+                btn.innerText = 'Subscribed';
+                btn.style.background = '#333';
+                btn.style.color = '#aaa';
+            } else {
+                btn.innerText = 'Subscribe';
+                btn.style.background = '#cc0000';
+                btn.style.color = 'white';
+            }
+        }
+
+        function likeVideo(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('bi-hand-thumbs-up')) {
+                icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
+                btn.style.color = 'white';
+            } else {
+                icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
+                btn.style.color = '#aaa';
+            }
+        }
+
+        function cancelComment() {
+            document.getElementById('commentInput').value = '';
+        }
+
+        function postComment() {
+            const input = document.getElementById('commentInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const commentsList = document.getElementById('commentsList');
+            const newComment = document.createElement('div');
+            newComment.style.cssText = 'display: flex; gap: 1rem; margin-bottom: 1.5rem; animation: fadeIn 0.5s;';
+            newComment.innerHTML = `
+                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=random" style="width: 40px; height: 40px; border-radius: 50%;" alt="User">
+                <div>
+                    <div style="color: white; font-weight: bold; font-size: 0.9rem; margin-bottom: 0.25rem;">${userName} <span style="color: #666; font-weight: normal; font-size: 0.8rem; margin-left: 0.5rem;">Just now</span></div>
+                    <p style="color: #ccc; font-size: 0.95rem;">${text}</p>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <button class="action-btn" style="font-size: 0.8rem;"><i class="bi bi-hand-thumbs-up"></i> 0</button>
+                        <button class="action-btn" style="font-size: 0.8rem;"><i class="bi bi-hand-thumbs-down"></i></button>
+                        <button class="action-btn" style="font-size: 0.8rem;">Reply</button>
+                    </div>
+                </div>
+            `;
+            commentsList.prepend(newComment);
+            input.value = '';
+        }
+    </script>
+    <style>
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .video-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .mark-complete-btn {
+            background-color: #00aa6c;
+            /* Green color */
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s;
+        }
+
+        .mark-complete-btn:hover {
+            background-color: #008f5b;
+        }
+
+        .mark-complete-btn:disabled {
+            background-color: #444;
+            cursor: not-allowed;
+            color: #888;
+        }
+
+        .lesson-item .bi-check-circle-fill {
+            color: transparent;
+            /* Hidden by default if not completed */
+            transition: color 0.3s;
+        }
+
+        .lesson-item.completed .bi-check-circle-fill {
+            color: #00aa6c !important;
+            /* Green check */
+        }
+
+        .lesson-item.locked {
+            opacity: 0.6;
+            cursor: not-allowed !important;
+        }
+
+        .lesson-item.locked:hover {
+            background: transparent !important;
+        }
+
+
+
+        /* Modal Overlay */
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.5s ease;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .certificate-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Certificate Paper Container - Aspect Ratio approx 4:3 or landscape A4 */
+        .certificate-container {
+            position: relative;
+            width: 900px;
+            max-width: 100%;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            color: #333;
+            font-family: 'Times New Roman', serif;
+            border: 2px solid #d4af37;
+            /* Thin outer gold border */
+            /* overflow: hidden; Removed to allow actions to be visible */
+            margin: 40px auto;
+        }
+
+        /* Decorative Corners */
+        .corner-wave {
+            position: absolute;
+            z-index: 0;
+        }
+
+        .corner-wave.top-right {
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at top right, #b71c1c 0%, #b71c1c 40%, #d4af37 42%, transparent 43%);
+            pointer-events: none;
+        }
+
+        .corner-wave.bottom-left {
+            bottom: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle at bottom left, #b71c1c 0%, #b71c1c 40%, #d4af37 42%, transparent 43%);
+            pointer-events: none;
+        }
+
+        .certificate-content-new {
+            position: relative;
+            z-index: 1;
+            border: 2px solid #d4af37;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 600px;
+        }
+
+        /* Header */
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        /* Seal */
+        .gold-seal {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #fdd835 0%, #fbc02d 60%, #f57f17 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 2px dashed #fff;
+            position: relative;
+            color: #5d4037;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            z-index: 2;
+        }
+
+        .seal-inner {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .ribbon-tail {
+            position: absolute;
+            bottom: -20px;
+            width: 20px;
+            height: 40px;
+            background: #b71c1c;
+            z-index: -1;
+        }
+
+        .ribbon-tail.left {
+            left: 15px;
+            transform: rotate(20deg);
+        }
+
+        .ribbon-tail.right {
+            right: 15px;
+            transform: rotate(-20deg);
+        }
+
+        /* Typography */
+        .cert-main-title {
+            text-align: center;
+            font-size: 3.5rem;
+            color: #b71c1c;
+            /* Dark Red */
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: 2px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .cert-sub-title {
+            text-align: center;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .cert-present-line {
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .input-name {
+            text-align: center;
+            font-size: 3rem;
+            font-family: 'Times New Roman', serif;
+            margin: 10px 0 20px 0;
+            color: #000;
+            text-transform: capitalize;
+        }
+
+        .cert-text-block {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .course-name-highlight {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #000;
+        }
+
+        .cert-date {
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Footer */
+        .cert-footer-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .signature-block {
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
+
+        .sign-img {
+            height: 50px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .sign-line {
+            width: 200px;
+            height: 1px;
+            background: #333;
+            margin: 5px auto;
+        }
+
+        .sign-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #000;
+        }
+
+        .sign-role {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .stamp-block {
+            position: absolute;
+            right: 40px;
+            bottom: 0px;
+            opacity: 0.8;
+            transform: rotate(-10deg);
+        }
+
+        /* Buttons (No Print) */
+        .cert-actions {
+            position: absolute;
+            bottom: -80px;
+            /* More space for buttons */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 10001;
+        }
+
+        .print-btn,
+        .close-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .close-btn {
+            background: #333;
+            color: #fff;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #certificateModal,
+            #certificateModal * {
+                visibility: visible;
+            }
+
+            #certificateModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                padding: 0;
+                display: block;
+            }
+
+            .certificate-container {
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                border: none;
+                /* Let the paper be the border or rely on inner border */
+            }
+
+            .cert-actions {
+                display: none;
+            }
+        }
+
+
+        .certificate-content {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            padding: 4rem;
+            border-radius: 5px;
+            text-align: center;
+            border: 8px double #d4af37;
+            /* Double gold border */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            max-width: 850px;
+            width: 95%;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-image: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+        }
+
+        .certificate-modal.show .certificate-content {
+            transform: scale(1);
+        }
+
+        .cert-logo {
+            width: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .cert-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cert-subtitle {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cert-name {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            text-transform: capitalize;
+            font-style: italic;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            display: inline-block;
+            padding: 0 2rem 0.5rem 2rem;
+            min-width: 400px;
+            font-weight: 500;
+        }
+
+        .cert-course {
+            font-size: 1.2rem;
+            color: #ddd;
+            margin-bottom: 2rem;
+        }
+
+        /* Enhanced Certificate Styles */
+        .cert-seal {
+            font-size: 4rem;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+
+        .cert-presented-text {
+            color: #888;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .cert-body {
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .course-highlight {
+            font-size: 1.8rem;
+            color: #fff;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .cert-signatures {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 250px;
+        }
+
+        .signature-img {
+            height: 60px;
+            margin-bottom: -10px;
+            filter: brightness(0) invert(1);
+        }
+
+        .signature-line {
+            height: 1px;
+            background: #555;
+            margin: 5px 0;
+        }
+
+        .signatory-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .signatory-title {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: white;
+        }
+
+        .cert-footer {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            animation: confetti-fall linear forwards;
+        }
+
+        .get-cert-btn {
+            width: 100%;
+            background-color: #333;
+            color: #888;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: not-allowed;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+
+</html>

@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning | Indian Info Tech</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .my-courses-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 1rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #111;
+            border-radius: 12px;
+            border: 1px dashed #333;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #444;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Certificate Modal Styles - Copied from video_player.html */
+        .certificate-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .certificate-container {
+            position: relative;
+            width: 900px;
+            max-width: 100%;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            color: #333;
+            font-family: 'Times New Roman', serif;
+            border: 2px solid #d4af37;
+            margin: 40px auto;
+        }
+
+        .corner-wave {
+            position: absolute;
+            z-index: 0;
+        }
+
+        .corner-wave.top-right {
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at top right, #b71c1c 0%, #b71c1c 40%, #d4af37 42%, transparent 43%);
+            pointer-events: none;
+        }
+
+        .corner-wave.bottom-left {
+            bottom: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle at bottom left, #b71c1c 0%, #b71c1c 40%, #d4af37 42%, transparent 43%);
+            pointer-events: none;
+        }
+
+        .certificate-content-new {
+            position: relative;
+            z-index: 1;
+            border: 2px solid #d4af37;
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 600px;
+        }
+
+        .cert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .gold-seal {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #fdd835 0%, #fbc02d 60%, #f57f17 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 2px dashed #fff;
+            position: relative;
+            color: #5d4037;
+            font-weight: bold;
+            text-align: center;
+            font-family: sans-serif;
+            z-index: 2;
+        }
+
+        .seal-inner {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .ribbon-tail {
+            position: absolute;
+            bottom: -20px;
+            width: 20px;
+            height: 40px;
+            background: #b71c1c;
+            z-index: -1;
+        }
+
+        .ribbon-tail.left {
+            left: 15px;
+            transform: rotate(20deg);
+        }
+
+        .ribbon-tail.right {
+            right: 15px;
+            transform: rotate(-20deg);
+        }
+
+        .cert-main-title {
+            text-align: center;
+            font-size: 3.5rem;
+            color: #b71c1c;
+            margin: 0;
+            font-weight: normal;
+            letter-spacing: 2px;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .cert-sub-title {
+            text-align: center;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-top: 5px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .cert-present-line {
+            text-align: center;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .input-name {
+            text-align: center;
+            font-size: 3rem;
+            font-family: 'Times New Roman', serif;
+            margin: 10px 0 20px 0;
+            color: #000;
+            text-transform: capitalize;
+        }
+
+        .cert-text-block {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .course-name-highlight {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #000;
+        }
+
+        .cert-date {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .cert-footer-row {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            position: relative;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+
+        .signature-block {
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
+
+        .sign-img {
+            height: 50px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .sign-line {
+            width: 200px;
+            height: 1px;
+            background: #333;
+            margin: 5px auto;
+        }
+
+        .sign-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #000;
+        }
+
+        .sign-role {
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .stamp-block {
+            position: absolute;
+            right: 40px;
+            bottom: 0px;
+            opacity: 0.8;
+            transform: rotate(-10deg);
+        }
+
+        .cert-actions {
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 10001;
+        }
+
+        .print-btn,
+        .close-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .print-btn {
+            background: #d4af37;
+            color: #000;
+        }
+
+        .close-btn {
+            background: #333;
+            color: #fff;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #certificateModal,
+            #certificateModal * {
+                visibility: visible;
+            }
+
+            #certificateModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                padding: 0;
+                display: block;
+            }
+
+            .certificate-container {
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                border: none;
+            }
+
+            .cert-actions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="IIT-Photoroom.png" alt="Indian Info Tech" style="border-radius: 8px;">
+        </div>
+        <ul class="nav-menu">
+            <li><a href="teach_dashboard.html" class="nav-item"><i class="bi bi-house-door"></i>
+                    <span>Dashboard</span></a></li>
+            <li><a href="my_learning.html" class="nav-item active"><i class="bi bi-journal-check"></i> <span>My
+                        Learning</span></a></li>
+            <li><a href="index.html" class="nav-item"><i class="bi bi-box-arrow-left"></i> <span>Logout</span></a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="user-info">
+                <h1 id="welcomeText">My Courses</h1>
+            </div>
+            <div class="top-actions">
+                <div class="user-profile">
+                    <img src="avatar.jpg" alt="User" id="userAvatar">
+                    <span id="userNameDisplay">Student</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="my-courses-header">
+            <h2>Courses You've Purchased</h2>
+            <p style="color: #888;">Continue where you left off</p>
+        </div>
+
+        <div class="course-grid" id="purchasedCourseGrid">
+            <!-- Dynamic Purchased Courses -->
+        </div>
+
+        <div id="emptyContainer" class="empty-state" style="display: none;">
+            <i class="bi bi-journal-x"></i>
+            <h3>No Courses Found</h3>
+            <p style="color: #666; margin-bottom: 1.5rem;">You haven't purchased or been approved for any courses yet.
+            </p>
+            <a href="teach_dashboard.html" class="cta-btn" style="text-decoration: none; display: inline-block;">Browse
+                Courses</a>
+        </div>
+    </main>
+
+    <!-- Certificate Modal -->
+    <div id="certificateModal" class="certificate-modal" style="display: none;">
+        <div class="certificate-container">
+            <!-- Decorative Corners/Background -->
+            <div class="corner-wave top-right"></div>
+            <div class="corner-wave bottom-left"></div>
+
+            <div class="certificate-content-new">
+                <!-- Header -->
+                <div class="cert-header">
+                    <div class="cert-logo-section">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="IIT-icon.png" alt="Logo" style="width: 60px; height: auto;">
+                            <div>
+                                <h2
+                                    style="margin: 0; color: #d32f2f; font-family: serif; font-size: 1.8rem; line-height: 1;">
+                                    Indian Info Tech</h2>
+                                <p
+                                    style="margin: 4px 0 0 0; color: #1565c0; font-size: 0.75rem; font-weight: bold; font-style: italic;">
+                                    Research & Development Center</p>
+                                <p style="margin: 0; color: #333; font-size: 0.6rem;">(Affiliated to NIELIT (2015), Gov
+                                    of India, Delhi)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cert-seal-section">
+                        <div class="gold-seal">
+                            <div class="seal-inner">
+                                <span style="font-size: 0.7rem; display: block;">14</span>
+                                <span style="font-size: 0.6rem; display: block;">YEARS</span>
+                                <span style="font-size: 0.4rem;">EXCELLENCE</span>
+                            </div>
+                            <div class="ribbon-tail left"></div>
+                            <div class="ribbon-tail right"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="cert-body-main">
+                    <h1 class="cert-main-title">CERTIFICATE</h1>
+                    <p class="cert-sub-title">OF PARTICIPATION</p>
+
+                    <p class="cert-present-line">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+
+                    <div class="input-name" id="certUserName">Student Name</div>
+
+                    <div class="cert-text-block">
+                        has successfully completed the online course on<br>
+                        <span class="course-name-highlight">"<span id="certCourseName">Course Name</span>"</span>
+                        held on <span id="certDate" class="cert-date">Month date year</span>
+                        <br>
+                        Conducted by <span style="font-weight: 700;">Indian Info Tech</span>, Research & Development
+                        Center
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="cert-footer-row">
+                    <!-- Signature -->
+                    <div class="signature-block">
+                        <img src="Thiyagu_new_signature.png" alt="Signature" class="sign-img"
+                            onerror="this.style.display='none'">
+                        <div class="sign-line"></div>
+                        <div class="sign-name">DR.V.THIYAGU</div>
+                        <div class="sign-role">Director<br>Indian Info Tech</div>
+                    </div>
+
+                    <!-- Stamp -->
+                    <div class="stamp-block">
+                        <div class="circular-stamp">
+                            <svg viewBox="0 0 100 100" width="80" height="80">
+                                <path id="curve" d="M 10, 50 A 40, 40 0 1, 1 90, 50 A 40, 40 0 1, 1 10, 50"
+                                    fill="transparent" />
+                                <text width="100">
+                                    <textPath xlink:href="#curve" startOffset="50%" text-anchor="middle" fill="#5e35b1"
+                                        font-size="10" font-weight="bold" font-family="Arial">
+                                        Indian Info Tech • Namakkal •
+                                    </textPath>
+                                </text>
+                                <text x="50" y="55" text-anchor="middle" fill="#5e35b1" font-size="20"
+                                    font-weight="bold">★</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Actions -->
+            <div class="cert-actions">
+                <button onclick="window.print()" class="print-btn" style="background: #17a2b8; margin-right: 10px;"><i
+                        class="bi bi-printer"></i> Print</button>
+                <button onclick="downloadCertificatePDF()" class="print-btn"><i class="bi bi-download"></i>
+                    Download</button>
+                <button onclick="closeCertificate()" class="close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Sync with registeredUsers to get latest purchased list
+            const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            const user = registeredUsers.find(u => (u.email || '').toLowerCase().trim() === (loggedUser.email || '').toLowerCase().trim());
+
+            if (!user) {
+                alert("User session invalid. Please log in again.");
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Sync loggedInUser in storage
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+            document.getElementById('userNameDisplay').textContent = user.fullname || user.name || 'Student';
+
+            renderPurchasedCourses(user);
+        });
+
+        function renderPurchasedCourses(user) {
+            let purchasedTitles = user.purchasedCourses || [];
+            if (!Array.isArray(purchasedTitles)) {
+                purchasedTitles = typeof purchasedTitles === 'string' ? [purchasedTitles] : [];
+            }
+
+            // Deduplicate titles to prevent double-showing
+            purchasedTitles = [...new Set(purchasedTitles.map(t => t.trim()))];
+
+            const systemCourses = JSON.parse(localStorage.getItem('systemCourses')) || [];
+            const grid = document.getElementById('purchasedCourseGrid');
+            const empty = document.getElementById('emptyContainer');
+
+            if (purchasedTitles.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            // Ensure grid is visible and empty state is hidden
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+
+            grid.innerHTML = '';
+
+            const masterDefaults = [
+                { id: 1, title: 'Full stack development', category: 'Full stack development', thumb: 'full stack development.jpg', lessons: 20, page: 'course_details.html' },
+                { id: 2, title: 'Web Development', category: 'web development', thumb: 'web-development.avif', lessons: 13, page: 'web_development_course-details.html' },
+                { id: 3, title: 'AI developer', category: 'AI developer', thumb: 'AI.avif', lessons: 22, page: 'AI_development_course-details.html' },
+                { id: 4, title: 'Mobile app development', category: 'mobile app development', thumb: 'mobile-app-dev.avif', lessons: 10, page: 'mobile_app_development_course-details.html' },
+                { id: 5, title: 'UI UX development', category: 'UI UX development', thumb: 'UI.jpg', lessons: 10, page: 'ui_ux_development_course-details.html' },
+                { id: 6, title: 'meachine learning', category: 'meachine learning', thumb: 'ML.jpg', lessons: 10, page: 'meachine_learning_course-details.html' },
+                { id: 7, title: 'open CV', category: 'open CV', thumb: 'open-cv-1.avif', lessons: 13, page: 'openCV_course-details.html' },
+                { id: 8, title: 'Python', category: 'python', thumb: 'python-11.avif', lessons: 17, page: 'python_course-details.html' },
+                { id: 9, title: 'Java', category: 'Java', thumb: 'java-11.avif', lessons: 15, page: 'java_course-details.html' },
+                { id: 10, title: 'C++', category: 'C++', thumb: 'C++1.jpg', lessons: 8, page: 'c_plus_plus_course-details.html' },
+                { id: 11, title: 'C programming', category: 'C', thumb: 'C-11.avif', lessons: 10, page: 'c_course-details.html' },
+                { id: 12, title: 'Arduino', category: 'Arduino', thumb: 'arduino-1.jpg', lessons: 13, page: 'arduino_course-details.html' },
+                { id: 13, title: 'Embaededd system', category: 'Embaededd system', thumb: 'Embedded-1.jpg', lessons: 10, page: 'embaededd_system_course-details.html' },
+                { id: 14, title: 'Robotics', category: 'Robotics', thumb: 'Robotic-1.avif', lessons: 10, page: 'robotics_course-details.html' },
+                { id: 15, title: 'IOT', category: 'IOT', thumb: 'Iot-1.jpg', lessons: 10, page: 'iot_course-details.html' }
+            ];
+
+            // Combined pool for lookup: defaults + custom admin ones
+            let lookupPool = [...masterDefaults];
+            systemCourses.forEach(sc => {
+                if (!masterDefaults.some(md => md.title.toLowerCase() === (sc.title || '').toLowerCase())) {
+                    lookupPool.push(sc);
+                }
+            });
+
+            // Map user's purchased titles to objects in the pool
+            // Ensure we show ALL purchased titles, even if not found in lookupPool (fallback)
+            const purchasedCourses = purchasedTitles.map(title => {
+                const found = lookupPool.find(c => (c.title || '').toLowerCase().trim() === title.toLowerCase().trim());
+                if (found) return found;
+
+                // Fallback course object if not found in pool
+                return {
+                    title: title,
+                    category: 'General',
+                    thumb: 'laptop.webp',
+                    lessons: 10,
+                    page: 'course_details.html'
+                };
+            });
+
+            purchasedCourses.forEach(course => {
+                const article = document.createElement('article');
+                article.className = 'course-card';
+                article.style.cursor = 'pointer';
+
+                // Check Progress (User-Specific)
+                const userIdentifier = (user.email || 'guest').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                const courseKey = `progress-${userIdentifier}-${(course.title || 'default').replace(/\s+/g, '-').toLowerCase()}`;
+
+                // Check for legacy progress if user-specific not found
+                let completedVids = JSON.parse(localStorage.getItem(courseKey));
+                if (!completedVids) {
+                    const legacyKey = `progress-${(course.title || 'default').replace(/\s+/g, '-').toLowerCase()}`;
+                    completedVids = JSON.parse(localStorage.getItem(legacyKey)) || [];
+                }
+
+                const totalLessons = course.lessons || 10;
+                const isCompleted = completedVids.length >= totalLessons;
+
+                article.onclick = () => {
+                    window.location.href = `${course.page}?course=${encodeURIComponent(course.title)}`;
+                };
+
+                article.innerHTML = `
+                    <div style="position: relative;">
+                        <img src="${course.thumb || 'laptop.webp'}" class="course-thumb" alt="${course.title}">
+                        <div style="position: absolute; top: 10px; right: 10px; background: #00aa6c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;">${isCompleted ? 'COMPLETED' : 'ENROLLED'}</div>
+                    </div>
+                    <div class="course-info">
+                        <span class="course-tag">${course.category || 'General'}</span>
+                        <h3 class="course-title">${course.title}</h3>
+                        <div class="course-meta">
+                            <div class="lesson-info">
+                                <i class="bi bi-play-circle-fill play-icon"></i>
+                                <span>${totalLessons} Lessons</span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; width: 100%; margin-top: 0.5rem;">
+                                ${isCompleted ? `
+                                    <button class="buy-btn" onclick="event.stopPropagation(); showCertificate('${course.title.replace(/'/g, "\\'")}', '${courseKey}')" style="background: #d4af37; color: black; border: none; flex: 1;">
+                                        <i class="bi bi-award-fill"></i> Get Certificate
+                                    </button>
+                                ` : `
+                                    <span style="color: #00aa6c; font-weight: 600; font-size: 0.8rem;">START LEARNING &rarr;</span>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(article);
+            });
+        }
+
+        // Certificate Modal Functions
+        let currentCertCourse = '';
+        let currentCertKey = '';
+
+        function showCertificate(courseName, courseKey) {
+            currentCertCourse = courseName;
+            currentCertKey = courseKey;
+
+            const loggedUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            const userName = loggedUser ? (loggedUser.fullname || loggedUser.name || loggedUser.email || 'Valued Student') : 'Valued Student';
+
+            // Get completion date
+            const dateKey = 'date-' + courseKey;
+            const completionDate = localStorage.getItem(dateKey) || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+            // Update certificate content
+            document.getElementById('certUserName').textContent = userName;
+            document.getElementById('certCourseName').textContent = courseName;
+            document.getElementById('certDate').textContent = completionDate;
+
+            // Show modal
+            const modal = document.getElementById('certificateModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertificate() {
+            const modal = document.getElementById('certificateModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function downloadCertificatePDF() {
+            // For now, just trigger print
+            // In the future, this could use html2pdf or similar library
+            window.print();
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeCertificate();
+            }
+        });
+    </script>
+</body>
+
+</html>
